@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --color-ml-yellow: #FFE600;
+  --color-ml-blue: #3483FA;
+  --color-ml-dark-blue: #1E2A78;
+  --color-ml-bg-gray: #F5F5F5;
+  --shadow-ml: 0 1px 2px 0 rgba(0,0,0,0.1);
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-ml-bg-gray text-gray-800 antialiased;
+  }
+}
+
+@layer components {
+  .btn-blue {
+    @apply bg-ml-blue text-white px-6 py-2.5 rounded-md font-semibold transition-all hover:brightness-95 active:scale-95;
+  }
+  
+  .sleek-card {
+    @apply bg-white rounded-md shadow-ml p-4;
+  }
+
+  .badge-sleek {
+    @apply bg-[#3483fa20] text-ml-blue text-[10px] font-bold px-1.5 py-0.5 rounded-xs uppercase tracking-tight;
+  }
+}

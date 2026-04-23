@@ -1,0 +1,1508 @@
+import React, { useState, useEffect } from 'react';
+import { Search, Menu, ChevronRight, TrendingUp, Facebook, Instagram, Twitter, Mail, X, ChevronLeft, ShoppingCart, Star, Smartphone, Home, Shirt, Heart, Info, Headset, Utensils, Flame, Zap, ShoppingBag, Tag } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { useForm, ValidationError } from '@formspree/react';
+
+// --- UTILS ---
+const parsePrice = (priceStr: string): number => {
+  if (!priceStr) return 0;
+  const cleaned = priceStr.replace('R$', '').replace('.', '').replace(',', '.').trim();
+  return parseFloat(cleaned) || 0;
+};
+
+// --- DATA: EDITABLE CONTENT ---
+const LOGO_URL = 'https://i.postimg.cc/fLhv5N5c/mercado-compras.png';
+
+const ContactForm = () => {
+  const [state, handleSubmit] = useForm('xwvawwar');
+
+  if (state.succeeded) {
+    return (
+      <div className="text-center py-10 space-y-4">
+        <div className="bg-green-50 h-20 w-20 rounded-full flex items-center justify-center mx-auto text-green-500">
+          <ChevronRight size={32} className="rotate-[-90deg]" /> 
+        </div>
+        <h3 className="text-xl font-bold text-gray-900">Mensagem Enviada!</h3>
+        <p className="text-gray-600">Obrigado pelo contato. Responderemos em breve no seu e-mail.</p>
+        <button 
+          onClick={() => window.location.reload()} 
+          className="text-ml-blue font-bold hover:underline mt-4"
+        >
+          Enviar outra mensagem
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6 text-gray-700 leading-relaxed">
+      <p>Tem alguma dúvida, sugestão ou deseja anunciar conosco? Entre em contato através do formulário abaixo ou pelos nossos canais oficiais.</p>
+      
+      <form className="space-y-4" onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="name" className="block text-sm font-bold text-gray-700 mb-1">Nome Completo</label>
+          <input 
+            id="name"
+            name="name"
+            type="text" 
+            required 
+            className="w-full px-4 py-2 rounded-md border border-gray-200 focus:ring-2 focus:ring-ml-blue outline-none transition-all" 
+            placeholder="Seu nome" 
+          />
+          <ValidationError prefix="Name" field="name" errors={state.errors} className="text-red-500 text-xs mt-1" />
+        </div>
+        <div>
+          <label htmlFor="email" className="block text-sm font-bold text-gray-700 mb-1">E-mail</label>
+          <input 
+            id="email"
+            name="email"
+            type="email" 
+            required 
+            className="w-full px-4 py-2 rounded-md border border-gray-200 focus:ring-2 focus:ring-ml-blue outline-none transition-all" 
+            placeholder="seu@email.com" 
+          />
+          <ValidationError prefix="Email" field="email" errors={state.errors} className="text-red-500 text-xs mt-1" />
+        </div>
+        <div>
+          <label htmlFor="message" className="block text-sm font-bold text-gray-700 mb-1">Mensagem</label>
+          <textarea 
+            id="message"
+            name="message"
+            required 
+            className="w-full px-4 py-2 rounded-md border border-gray-200 focus:ring-2 focus:ring-ml-blue outline-none transition-all h-32" 
+            placeholder="Como podemos ajudar?"
+          ></textarea>
+          <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-500 text-xs mt-1" />
+        </div>
+        <button 
+          type="submit" 
+          disabled={state.submitting}
+          className="btn-blue w-full flex items-center justify-center gap-2"
+        >
+          {state.submitting ? (
+            <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+          ) : 'Enviar Mensagem'}
+        </button>
+        {state.errors && (
+          <div className="space-y-2">
+            <p className="text-red-500 text-sm text-center">Ocorreu um erro ao enviar.</p>
+            <p className="text-gray-500 text-[10px] text-center leading-tight">
+              Verifique os campos acima ou tente novamente mais tarde.
+            </p>
+          </div>
+        )}
+      </form>
+
+      <div className="pt-6 border-t border-gray-100 flex flex-col gap-3">
+        <div className="flex items-center gap-3 text-sm">
+          <Mail size={18} className="text-ml-blue" />
+          <span className="font-medium">regisroneynr@gmail.com</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const MODAL_CONTENT: Record<string, { title: string; content: React.ReactNode }> = {
+  about: {
+    title: "Quem Somos",
+    content: (
+      <div className="space-y-4 text-gray-700 leading-relaxed">
+        <p>O Mercado Compras é um site de recomendações de produtos que atua como afiliado do Mercado Livre. Nosso objetivo é ajudar você a encontrar ofertas, promoções e produtos interessantes de forma rápida, prática e segura.</p>
+        <p>Não somos uma loja virtual tradicional. O Mercado Compras não realiza vendas diretas, não processa pagamentos e não faz entregas. Nosso papel é divulgar produtos e direcionar você para o site oficial do Mercado Livre, onde a compra é efetivamente realizada.</p>
+        <p>Trabalhamos com plataformas confiáveis e buscamos sempre apresentar produtos relevantes, com boas avaliações e preços competitivos. No entanto, todas as informações detalhadas, como prazo de entrega, garantia, trocas e suporte, são de responsabilidade exclusiva do Mercado Livre onde a compra é finalizada.</p>
+        <p>Ao clicar em um produto em nosso site, você será redirecionado para o site do Mercado Livre. Podemos receber uma comissão por essa indicação, sem custo adicional para você.</p>
+        <p>Nosso compromisso é oferecer uma experiência simples, transparente e útil para nossos visitantes.</p>
+        <p>Se tiver dúvidas, entre em contato conosco através dos canais disponíveis no site.</p>
+        <p className="font-bold">Mercado Compras – Facilitando suas escolhas online.</p>
+      </div>
+    )
+  },
+  privacy: {
+    title: "Política de Privacidade",
+    content: (
+      <div className="space-y-4 text-gray-700 leading-relaxed">
+        <p>A sua privacidade é importante para nós. Esta Política de Privacidade descreve como o Mercado Compras coleta, utiliza e protege suas informações.</p>
+        <h3 className="font-bold text-gray-900 mt-4">1. Coleta de informações</h3>
+        <p>Podemos coletar informações básicas, como:</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Dados de navegação (cookies)</li>
+          <li>Endereço IP</li>
+          <li>Informações fornecidas voluntariamente (ex: email em newsletter)</li>
+        </ul>
+        <h3 className="font-bold text-gray-900 mt-4">2. Uso das informações</h3>
+        <p>As informações coletadas são utilizadas para:</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Melhorar a experiência do usuário</li>
+          <li>Personalizar conteúdo e ofertas</li>
+          <li>Analisar o desempenho do site</li>
+        </ul>
+        <h3 className="font-bold text-gray-900 mt-4">3. Cookies</h3>
+        <p>Utilizamos cookies para melhorar a navegação e exibir conteúdos relevantes. Você pode desativá-los nas configurações do seu navegador.</p>
+        <h3 className="font-bold text-gray-900 mt-4">4. Links de terceiros</h3>
+        <p>O Mercado Compras contém links para sites externos (como o Mercado Livre). Não temos controle sobre esses sites e não somos responsáveis por suas políticas de privacidade ou práticas.</p>
+        <h3 className="font-bold text-gray-900 mt-4">5. Afiliados</h3>
+        <p>Nosso site utiliza links de afiliados. Ao clicar nesses links, você será redirecionado para sites terceiros, onde a compra será realizada. Podemos receber comissões por essas indicações.</p>
+        <h3 className="font-bold text-gray-900 mt-4">6. Segurança</h3>
+        <p>Adotamos medidas para proteger suas informações, mas não podemos garantir segurança absoluta na internet.</p>
+        <h3 className="font-bold text-gray-900 mt-4">7. Alterações</h3>
+        <p>Esta política pode ser atualizada a qualquer momento, sem aviso prévio.</p>
+        <h3 className="font-bold text-gray-900 mt-4">8. Contato</h3>
+        <p>Se tiver dúvidas sobre esta política, entre em contato pelos canais disponíveis no site.</p>
+        <p className="font-bold">Mercado Compras – Transparência e respeito à sua privacidade.</p>
+      </div>
+    )
+  },
+  terms: {
+    title: "Termos de Uso",
+    content: (
+      <div className="space-y-4 text-gray-700 leading-relaxed">
+        <p>Ao acessar e utilizar o site Mercado Compras, você concorda com os termos e condições abaixo:</p>
+        <h3 className="font-bold text-gray-900 mt-4">1. Natureza do serviço</h3>
+        <p>O Mercado Compras é um site de divulgação de produtos como afiliado. Não vendemos produtos diretamente, não realizamos cobranças e não efetuamos entregas.</p>
+        <h3 className="font-bold text-gray-900 mt-4">2. Responsabilidade sobre compras</h3>
+        <p>Todas as compras são realizadas em sites de terceiros. Portanto:</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Não somos responsáveis por pagamentos</li>
+          <li>Não realizamos entregas</li>
+          <li>Não nos responsabilizamos por atrasos, extravios ou problemas logísticos</li>
+          <li>Não fazemos trocas ou devoluções</li>
+        </ul>
+        <p>Qualquer problema com o produto deve ser resolvido diretamente com o Mercado Livre (onde a compra foi finalizada).</p>
+        <h3 className="font-bold text-gray-900 mt-4">3. Informações dos produtos</h3>
+        <p>Buscamos manter informações atualizadas, porém:</p>
+        <ul className="list-disc pl-5 space-y-1">
+          <li>Preços podem mudar sem aviso</li>
+          <li>Disponibilidade pode variar</li>
+          <li>Informações completas devem ser verificadas no site do Mercado Livre</li>
+        </ul>
+        <h3 className="font-bold text-gray-900 mt-4">4. Links externos</h3>
+        <p>Nosso site contém links para terceiros. Não temos controle sobre o conteúdo, políticas ou práticas desses sites.</p>
+        <h3 className="font-bold text-gray-900 mt-4">5. Uso do site</h3>
+        <p>Você concorda em utilizar o site de forma legal, ética e sem violar direitos de terceiros.</p>
+        <h3 className="font-bold text-gray-900 mt-4">6. Propriedade intelectual</h3>
+        <p>Todo o conteúdo do site (textos, layout, design) pertence ao Mercado Compras, salvo quando indicado.</p>
+        <h3 className="font-bold text-gray-900 mt-4">7. Alterações dos termos</h3>
+        <p>Os termos podem ser atualizados a qualquer momento, sem aviso prévio.</p>
+        <h3 className="font-bold text-gray-900 mt-4">8. Aceitação</h3>
+        <p>Ao continuar utilizando o site, você declara estar de acordo com estes termos.</p>
+        <p className="font-bold">Mercado Compras – Informação clara para decisões seguras.</p>
+      </div>
+    )
+  },
+  contact: {
+    title: "Contato",
+    content: <ContactForm />
+  }
+};
+
+const CAROUSEL_PRODUCTS = [
+  {
+    isFullImage: true,
+    imageUrl: "https://i.postimg.cc/QM93B96m/tudo-que-voce-precisa-em-um-so-lugar.png",
+    affiliateLink: "internal:all",
+    badge: "",
+    releaseDate: "",
+    title: "",
+    price: "",
+    installments: ""
+  },
+  {
+    isFullImage: true,
+    imageUrl: "https://i.postimg.cc/kgxS0sPS/copa-do-mundo-2026-album-capa-brochura-fifa-world-cup-2026.jpg",
+    affiliateLink: "https://meli.la/2kYKhec",
+    badge: "",
+    releaseDate: "",
+    title: "",
+    price: "",
+    installments: ""
+  }
+];
+
+const CATEGORIES = [
+  {
+    id: "eletronicos",
+    title: "ELETRÔNICOS",
+    icon: <Smartphone size={22} />,
+    products: [
+      { 
+        id: 4, 
+        name: "Barbeador E Cortador De Cabelo 3 Em 1 Kemei Km-6558", 
+        originalPrice: "R$ 139,90",
+        price: "R$ 48,89", 
+        discount: "65% OFF",
+        rating: "4.6",
+        reviewsCount: "13519",
+        isBestSeller: true,
+        subTitle: "1º em Barbeadores Elétricos",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_638009-MLU77163689638_072024-F.webp", 
+        link: "https://meli.la/2Nyg73S" 
+      },
+      { 
+        id: 3, 
+        name: "Celular Samsung Galaxy A07 128gb, 4gb, Câmera 50mp, Tela 6.7 , Proteção Ip54, Processador 6nm - Violeta", 
+        originalPrice: "R$ 899,00",
+        price: "R$ 599,40", 
+        discount: "33% OFF",
+        installments: "10x R$ 66,60 sem juros",
+        rating: "4.9",
+        reviewsCount: "56595",
+        isBestSeller: true,
+        subTitle: "1º em Celulares e Telefones",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_765861-MLA95532186080_102025-F.webp", 
+        link: "https://meli.la/1jcuMtw" 
+      },
+      { 
+        id: 2, 
+        name: "Fechadura Digital Inteligente Biométrica Senha Eletronica Touch Com Tuya Wifi Para Casa/hotel Adequado Para Portas Esquerdas/direitas Com Chaves+cartões Ic Cor Preto", 
+        originalPrice: "R$ 519,98",
+        price: "R$ 265,19", 
+        discount: "48% OFF",
+        installments: "12x R$ 25,94",
+        rating: "4.7",
+        reviewsCount: "37",
+        isBestSeller: true,
+        subTitle: "4º em Digitais Genérica",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_758484-MLA108861879013_032026-F.webp", 
+        link: "https://meli.la/1vARj2V" 
+      },
+      { 
+        id: 1, 
+        name: "Novo Echo Dot 5ª Geração com Relógio | Smart Speaker com Alexa", 
+        price: "R$ 428,00", 
+        installments: "12x R$ 41,39",
+        rating: "4.9",
+        reviewsCount: "22220",
+        isBestSeller: true,
+        subTitle: "1º em Assistentes Pessoais",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_929868-MLA99520021024_112025-F.webp", 
+        link: "https://meli.la/15nyeTH" 
+      },
+    ]
+  },
+  {
+    id: "casa-e-cozinha",
+    title: "CASA E COZINHA",
+    icon: <Home size={22} />,
+    products: [
+      { 
+        id: 8, 
+        name: "Kit 24 Talheres Luxo Premium Faqueiro Dourado Com Maleta", 
+        originalPrice: "R$ 120,89",
+        price: "R$ 71,06", 
+        discount: "41% OFF",
+        installments: "12x R$ 7,00",
+        rating: "4.9",
+        reviewsCount: "133",
+        isBestSeller: true,
+        subTitle: "2º em Faqueiros",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_665982-MLB88943084362_082025-F.webp", 
+        link: "https://meli.la/1SP5z48" 
+      },
+      { 
+        id: 7, 
+        name: "Guarda Roupa Dobrável Organizador Colmeia Preto 8 Prateleiras IRSINA", 
+        originalPrice: "R$ 138,00",
+        price: "R$ 97,45", 
+        discount: "29% OFF",
+        installments: "12x R$ 9,60",
+        rating: "4.6",
+        reviewsCount: "3413",
+        isBestSeller: true,
+        subTitle: "2º em Organizadores de Roupa Intima",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_938828-MLA99418141062_112025-F.webp", 
+        link: "https://meli.la/1Fnqp2q" 
+      },
+      { 
+        id: 6, 
+        name: "Ventilador Arno X-treme 9 Mesa 40cm Ve90", 
+        originalPrice: "R$ 459,99",
+        price: "R$ 289,00", 
+        discount: "37% OFF",
+        installments: "6x R$ 48,17 sem juros",
+        rating: "4.8",
+        reviewsCount: "9085",
+        isBestSeller: true,
+        subTitle: "11º em Ar e Ventilação",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_686594-MLA99930624347_112025-F.webp", 
+        link: "https://meli.la/2FAGbni" 
+      },
+      { 
+        id: 5, 
+        name: "Jogo Talheres Faqueiro Búzios Aço Inox 24 Peças Tramontina", 
+        originalPrice: "R$ 108,99",
+        price: "R$ 63,25", 
+        discount: "41% OFF",
+        installments: "12x R$ 6,23",
+        rating: "4.8",
+        reviewsCount: "39503",
+        isBestSeller: true,
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_885228-MLA105354697197_012026-F.webp", 
+        link: "https://meli.la/1njxMxH" 
+      },
+    ]
+  },
+  {
+    id: "moda",
+    title: "MODA",
+    icon: <Shirt size={22} />,
+    products: [
+      { 
+        id: 16, 
+        name: "Kit 4 Bermuda Shorts Tactel Sandrini Elastano Academia Praia", 
+        originalPrice: "R$ 124,99",
+        price: "R$ 94,99", 
+        discount: "24% OFF",
+        installments: "12x R$ 9,36",
+        rating: "4.7",
+        reviewsCount: "3459",
+        isBestSeller: true,
+        subTitle: "4º em Bermudas e Shorts",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_740026-MLB86614660221_062025-F.webp", 
+        link: "https://meli.la/2sRgrdM" 
+      },
+      { 
+        id: 15, 
+        name: "Blusa Tule Transparente Feminina Segunda Pele Tendencia", 
+        price: "R$ 30,97", 
+        rating: "4.6",
+        reviewsCount: "5018",
+        isBestSeller: true,
+        subTitle: "6º em Blusas",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_740301-MLB84701093399_052025-F-blusa-tule-transparente-feminina-segunda-pele-tendencia.webp", 
+        link: "https://meli.la/3497Ai4" 
+      },
+      { 
+        id: 14, 
+        name: "Tênis Sandrini Aero Run Academia Caminhada Treino", 
+        originalPrice: "R$ 149,99",
+        price: "R$ 58,19", 
+        discount: "61% OFF",
+        installments: "12x R$ 5,73",
+        rating: "4.6",
+        reviewsCount: "2134",
+        isBestSeller: true,
+        subTitle: "13º em Calçados",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_655320-MLB107468613084_032026-F-tnis-sandrini-aero-run-academia-caminhada-treino.webp", 
+        link: "https://meli.la/2U6JBwj" 
+      },
+      { 
+        id: 13, 
+        name: "Calça Jeans Wide Leg Feminina Cintura Alta Sem Lycra Stillge", 
+        originalPrice: "R$ 109,99",
+        price: "R$ 64,89", 
+        discount: "41% OFF",
+        rating: "4.6",
+        reviewsCount: "22517",
+        isBestSeller: true,
+        subTitle: "5º em Calças",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_717613-MLB96633630079_102025-F-calca-jeans-wide-leg-feminina-cintura-alta-sem-lycra-stillge.webp", 
+        link: "https://meli.la/2KSar8S",
+        installments: "no Pix ou R$ 66,90"
+      },
+    ]
+  }
+];
+
+const BEST_SELLERS = [
+  { 
+    id: 114, 
+    name: "Kit 4 Bermuda Shorts Tactel Sandrini Elastano Academia Praia", 
+    originalPrice: "R$ 124,99",
+    price: "R$ 94,99", 
+    discount: "24% OFF",
+    rating: "4.7", 
+    reviewsCount: "3459", 
+    isBestSeller: true,
+    subTitle: "4º em Bermudas e Shorts",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_740026-MLB86614660221_062025-F.webp", 
+    link: "https://meli.la/2sRgrdM", 
+    installments: "12x R$ 9,36"
+  },
+  { 
+    id: 113, 
+    name: "Blusa Tule Transparente Feminina Segunda Pele Tendencia", 
+    price: "R$ 30,97", 
+    rating: "4.6", 
+    reviewsCount: "5018", 
+    isBestSeller: true,
+    subTitle: "6º em Blusas",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_740301-MLB84701093399_052025-F-blusa-tule-transparente-feminina-segunda-pele-tendencia.webp", 
+    link: "https://meli.la/3497Ai4"
+  },
+  { 
+    id: 112, 
+    name: "Tênis Sandrini Aero Run Academia Caminhada Treino", 
+    originalPrice: "R$ 149,99",
+    price: "R$ 58,19", 
+    discount: "61% OFF",
+    rating: "4.6", 
+    reviewsCount: "2134", 
+    isBestSeller: true,
+    subTitle: "13º em Calçados",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_655320-MLB107468613084_032026-F-tnis-sandrini-aero-run-academia-caminhada-treino.webp", 
+    link: "https://meli.la/2U6JBwj", 
+    installments: "12x R$ 5,73"
+  },
+  { 
+    id: 111, 
+    name: "Calça Jeans Wide Leg Feminina Cintura Alta Sem Lycra Stillge", 
+    originalPrice: "R$ 109,99",
+    price: "R$ 64,89", 
+    discount: "41% OFF",
+    rating: "4.6", 
+    reviewsCount: "22517", 
+    isBestSeller: true,
+    subTitle: "5º em Calças",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_717613-MLB96633630079_102025-F-calca-jeans-wide-leg-feminina-cintura-alta-sem-lycra-stillge.webp", 
+    link: "https://meli.la/2KSar8S",
+    installments: "no Pix ou R$ 66,90"
+  },
+  { 
+    id: 110, 
+    name: "Kit 24 Talheres Luxo Premium Faqueiro Dourado Com Maleta", 
+    originalPrice: "R$ 120,89",
+    price: "R$ 71,06", 
+    discount: "41% OFF",
+    rating: "4.9", 
+    reviewsCount: "133", 
+    isBestSeller: true,
+    subTitle: "2º em Faqueiros",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_665982-MLB88943084362_082025-F.webp", 
+    link: "https://meli.la/1SP5z48", 
+    installments: "12x R$ 7,00"
+  },
+  { 
+    id: 109, 
+    name: "Guarda Roupa Dobrável Organizador Colmeia Preto 8 Prateleiras IRSINA", 
+    originalPrice: "R$ 138,00",
+    price: "R$ 97,45", 
+    discount: "29% OFF",
+    rating: "4.6", 
+    reviewsCount: "3413", 
+    isBestSeller: true,
+    subTitle: "2º em Organizadores de Roupa Intima",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_938828-MLA99418141062_112025-F.webp", 
+    link: "https://meli.la/1Fnqp2q", 
+    installments: "12x R$ 9,60"
+  },
+  { 
+    id: 108, 
+    name: "Ventilador Arno X-treme 9 Mesa 40cm Ve90", 
+    originalPrice: "R$ 459,99",
+    price: "R$ 289,00", 
+    discount: "37% OFF",
+    rating: "4.8", 
+    reviewsCount: "9085", 
+    isBestSeller: true,
+    subTitle: "11º em Ar e Ventilação",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_686594-MLA99930624347_112025-F.webp", 
+    link: "https://meli.la/2FAGbni", 
+    installments: "6x R$ 48,17 sem juros"
+  },
+  { 
+    id: 107, 
+    name: "Barbeador E Cortador De Cabelo 3 Em 1 Kemei Km-6558", 
+    originalPrice: "R$ 139,90",
+    price: "R$ 48,89", 
+    discount: "65% OFF",
+    rating: "4.6", 
+    reviewsCount: "13519", 
+    isBestSeller: true,
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_638009-MLU77163689638_072024-F.webp", 
+    link: "https://meli.la/2Nyg73S",
+    subTitle: "1º em Barbeadores Elétricos"
+  },
+  { 
+    id: 106, 
+    name: "Celular Samsung Galaxy A07 128gb, 4gb, Câmera 50mp, Tela 6.7 , Proteção Ip54, Processador 6nm - Violeta", 
+    originalPrice: "R$ 899,00",
+    price: "R$ 599,40", 
+    discount: "33% OFF",
+    rating: "4.9", 
+    reviewsCount: "56595", 
+    isBestSeller: true,
+    subTitle: "1º em Celulares e Telefones",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_765861-MLA95532186080_102025-F.webp", 
+    link: "https://meli.la/1jcuMtw", 
+    installments: "10x R$ 66,60 sem juros"
+  },
+  { 
+    id: 105, 
+    name: "Fechadura Digital Inteligente Biométrica Senha Eletronica Touch Com Tuya Wifi Para Casa/hotel Adequado Para Portas Esquerdas/direitas Com Chaves+cartões Ic Cor Preto", 
+    originalPrice: "R$ 519,98",
+    price: "R$ 265,19", 
+    discount: "48% OFF",
+    rating: "4.7", 
+    reviewsCount: "37", 
+    isBestSeller: true,
+    subTitle: "4º em Digitais Genérica",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_758484-MLA108861879013_032026-F.webp", 
+    link: "https://meli.la/1vARj2V", 
+    installments: "12x R$ 25,94"
+  },
+  { 
+    id: 100, 
+    name: "Novo Echo Dot 5ª Geração com Relógio | Smart Speaker com Alexa", 
+    price: "R$ 428,00", 
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_929868-MLA99520021024_112025-F.webp", 
+    link: "https://meli.la/15nyeTH", 
+    rating: "4.9", 
+    reviewsCount: "22220", 
+    isBestSeller: true,
+    subTitle: "1º em Assistentes Pessoais",
+    installments: "12x R$ 41,39"
+  },
+  { 
+    id: 101, 
+    name: "Copo Térmico Gigante 1,2l Inox Com Tampa E Inox Canudo", 
+    originalPrice: "R$ 99,98",
+    price: "R$ 48,98", 
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_952523-MLB109996174757_042026-F-copo-termico-gigante-12l-inox-com-tampa-e-inox-canudo.webp", 
+    link: "https://meli.la/1GBQdcv", 
+    discount: "51% OFF", 
+    rating: "4.9", 
+    reviewsCount: "5238", 
+    isBestSeller: true,
+    subTitle: "2º em Canecas e Copos Térmicos"
+  },
+  { 
+    id: 102, 
+    name: "Lavadora Lava Jato Portátil Pressão 2 Baterias + Maleta", 
+    originalPrice: "R$ 229,90",
+    price: "R$ 100,72", 
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_710675-MLB89102120983_082025-F.webp", 
+    link: "https://meli.la/1dFjoqo", 
+    discount: "56% OFF", 
+    rating: "4.5", 
+    reviewsCount: "27017", 
+    isBestSeller: true,
+    subTitle: "1º em Lavadoras de Jato Elétricas"
+  },
+  { 
+    id: 103, 
+    name: "Mochila Grande Alça Reforçada Resistente Faculdade Trabalho", 
+    originalPrice: "R$ 78,90",
+    price: "R$ 44,28", 
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_812719-MLB92851761813_092025-F-mochila-grande-alca-reforcada-resistente-faculdade-trabalho.webp", 
+    link: "https://meli.la/1oK5F4b", 
+    discount: "43% OFF", 
+    rating: "4.5", 
+    reviewsCount: "10985", 
+    isBestSeller: true,
+    subTitle: "1º em Malas e Bolsas"
+  },
+  { 
+    id: 104, 
+    name: "Compressor De Ar Digital Mini 12v Portátil Com Lanterna Led Para Moto Carro Bike Ciclismo E Enchimento De Pneus", 
+    originalPrice: "R$ 99,99",
+    price: "R$ 60,21", 
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_750504-MLA109109285404_042026-F.webp", 
+    link: "https://meli.la/1mC5M24", 
+    discount: "39% OFF", 
+    rating: "4.8", 
+    reviewsCount: "1353", 
+    isBestSeller: true,
+    subTitle: "2º em Compressores de Ar",
+    installments: "3x R$ 20,07 sem juros"
+  },
+];
+
+const parseDiscount = (discountStr: string): number => {
+  if (!discountStr) return 0;
+  const match = discountStr.match(/(\d+)%/);
+  return match ? parseInt(match[1]) : 0;
+};
+
+// --- COMPONENTS ---
+
+const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHighDiscounts }: { 
+  onOpenModal: (type: string) => void; 
+  searchTerm: string; 
+  onSearchChange: (val: string) => void;
+  onViewAll: () => void;
+  onViewHighDiscounts: () => void;
+}) => (
+  <header className="bg-[#FFE600] h-[99px] px-6 sticky top-0 z-50 flex items-center">
+    <div className="max-w-7xl mx-auto w-full flex flex-col justify-center h-full">
+      {/* Top Row: Logo + Search + Ad */}
+      <div className="flex items-center gap-8 h-[52px]">
+        {/* Logo */}
+        <div className="flex-shrink-0">
+          <a href="#" className="block hover:opacity-80 transition-opacity">
+            <img 
+              src={LOGO_URL} 
+              alt="Mercado Compras" 
+              className="h-10 w-auto object-contain"
+              referrerPolicy="no-referrer"
+            />
+          </a>
+        </div>
+
+        {/* Search Bar Column */}
+        <div className="flex-grow flex items-center gap-6 h-full">
+          <div className="relative w-full max-w-[580px]">
+            <input 
+              type="text" 
+              value={searchTerm}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className="w-full h-9 px-4 pr-12 rounded bg-white border-0 shadow-[0_1px_2px_0_rgba(0,0,0,0.2)] focus:outline-none placeholder-gray-400 text-sm"
+              placeholder="Buscar produtos, marcas e muito mais..."
+            />
+            <div className="absolute right-0 top-0 h-9 w-11 flex items-center justify-center text-gray-500 bg-white rounded-r border-l border-gray-100">
+              <Search size={18} className="stroke-[1.5px]" />
+            </div>
+          </div>
+
+          {/* Animated GIF Banner */}
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            whileHover={{ scale: 1.01 }}
+            onClick={onViewHighDiscounts}
+            className="hidden lg:flex flex-shrink-0 w-[436px] h-[54px] overflow-hidden rounded-md cursor-pointer border border-black/5 shadow-sm"
+          >
+            <img 
+              src="https://i.postimg.cc/qvwjGL7F/ofertas-imperdiveis.gif" 
+              alt="Ofertas Imperdíveis" 
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Bottom Row: Navigation */}
+      <nav className="flex items-center gap-6 text-[13px] font-medium text-gray-700 h-[32px] mt-1">
+        <a href="#" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+          <Home size={14} /> Início
+        </a>
+        <a href="#mais-vendidos" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+          <TrendingUp size={14} /> Mais Vendidos
+        </a>
+        <a href="#eletronicos" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+          <Smartphone size={14} /> Eletrônicos
+        </a>
+        <a href="#casa-e-cozinha" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+          <Utensils size={14} /> Casa e Cozinha
+        </a>
+        <a href="#moda" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+          <Shirt size={14} /> Moda
+        </a>
+        <button onClick={() => onOpenModal('favorites')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
+          <Heart size={14} /> Favoritos
+        </button>
+        <button onClick={() => onOpenModal('about')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
+          <Info size={14} /> Sobre
+        </button>
+        <button onClick={() => onOpenModal('contact')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
+          <Headset size={14} /> Contato
+        </button>
+
+        <div className="ml-auto flex items-center gap-4 border-l border-black/5 pl-6">
+          <a href="#" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-[#1E2A78] transition-all transform hover:scale-110" aria-label="Facebook">
+            <Facebook size={16} />
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-[#1E2A78] transition-all transform hover:scale-110" aria-label="Instagram">
+            <Instagram size={16} />
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-[#1E2A78] transition-all transform hover:scale-110" aria-label="X (Twitter)">
+            <Twitter size={16} />
+          </a>
+        </div>
+      </nav>
+    </div>
+  </header>
+);
+
+const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => void }) => {
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent(prev => (prev + 1) % CAROUSEL_PRODUCTS.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const product = CAROUSEL_PRODUCTS[current];
+
+  const handleLinkClick = (e: React.MouseEvent, link: string) => {
+    if (link.startsWith('internal:')) {
+      e.preventDefault();
+      onInternalLink(link.replace('internal:', ''));
+    }
+  };
+
+  return (
+    <section className="bg-white mb-12 overflow-hidden relative group rounded-lg shadow-md border border-gray-100">
+      <div className="max-w-[1213px] h-[357px] mx-auto relative flex items-center bg-white">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={current}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="w-full h-full"
+          >
+            {product.isFullImage ? (
+              <a 
+                href={product.affiliateLink} 
+                target={product.affiliateLink.startsWith('internal:') ? "_self" : "_blank"}
+                rel="noopener noreferrer"
+                onClick={(e) => handleLinkClick(e, product.affiliateLink)}
+                className="w-full h-full flex items-center justify-center cursor-pointer bg-white"
+              >
+                <img 
+                  src={product.imageUrl} 
+                  alt="Promoção" 
+                  className="max-w-full max-h-full object-contain"
+                  referrerPolicy="no-referrer"
+                />
+              </a>
+            ) : (
+              <div className="flex flex-col md:flex-row items-center gap-12 w-full h-full px-8 md:px-20 py-4">
+                <div className="flex-1 space-y-4 md:space-y-6">
+                  <div className="flex items-center gap-4">
+                    <span className="bg-[#1E2A78] text-white text-[10px] font-bold px-3 py-1.5 rounded-sm uppercase tracking-[0.15em] shadow-sm">
+                      {product.badge}
+                    </span>
+                    <span className="bg-[#00A650]/10 text-[#00A650] text-[11px] font-bold px-4 py-1.5 rounded-full uppercase tracking-tight">
+                      {product.releaseDate}
+                    </span>
+                  </div>
+                  
+                  <h2 className="text-xl md:text-3xl font-black text-[#1E2A78] leading-[1.1] tracking-tighter max-w-xl">
+                    {product.title}
+                  </h2>
+
+                  <div className="flex items-center gap-4 text-gray-900 pt-1 md:pt-2">
+                    <p className="text-2xl md:text-3xl font-black tracking-tighter">{product.price}</p>
+                    {product.installments && (
+                      <p className="text-xs md:text-base font-semibold text-[#00A650] bg-[#00A650]/10 px-2 py-0.5 rounded">{product.installments}</p>
+                    )}
+                  </div>
+
+                  <div className="pt-2">
+                    <a 
+                      href={product.affiliateLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-3 bg-[#3483FA] text-white font-extrabold py-2.5 md:py-3.5 px-8 md:px-10 rounded-sm text-sm md:text-base hover:brightness-110 active:scale-95 transition-all uppercase tracking-widest shadow-xl shadow-blue-100 group/btn"
+                    >
+                      <ShoppingCart size={20} className="transition-transform group-hover/btn:scale-110" />
+                      <span>Quero Comprar</span>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="relative w-full md:w-[400px] h-full flex justify-center items-center p-4">
+                  <motion.img 
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    src={product.imageUrl} 
+                    alt={product.title} 
+                    className="max-h-full w-auto object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.15)] transform group-hover:scale-105 transition-transform duration-700"
+                    referrerPolicy="no-referrer"
+                  />
+                </div>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Carousel Dots */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+          {CAROUSEL_PRODUCTS.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${current === i ? 'bg-ml-blue w-8' : 'bg-gray-300 hover:bg-gray-400'}`}
+            />
+          ))}
+        </div>
+
+        {/* Navigation Arrows */}
+        <button 
+          onClick={() => setCurrent(prev => (prev - 1 + CAROUSEL_PRODUCTS.length) % CAROUSEL_PRODUCTS.length)}
+          className="absolute left-4 p-2 bg-white/80 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+        >
+          <ChevronLeft size={24} className="text-gray-600" />
+        </button>
+        <button 
+          onClick={() => setCurrent(prev => (prev + 1) % CAROUSEL_PRODUCTS.length)}
+          className="absolute right-4 p-2 bg-white/80 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity hover:bg-white"
+        >
+          <ChevronRight size={24} className="text-gray-600" />
+        </button>
+      </div>
+    </section>
+  );
+};
+
+const ProductCard = ({ product, isFavorite, onToggleFavorite }: { product: any; isFavorite: boolean; onToggleFavorite: (p: any) => void; key?: any }) => {
+  // Helper to split price into main and cents for styling
+  const formatPrice = (priceStr: string) => {
+    if (!priceStr) return { main: '0', cents: '00' };
+    const parts = priceStr.replace('R$', '').trim().split(',');
+    return {
+      main: parts[0],
+      cents: parts[1] || '00'
+    };
+  };
+
+  const { main, cents } = formatPrice(product.price);
+
+  return (
+    <div className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col h-[500px] relative group hover:shadow-xl transition-all duration-500 overflow-hidden">
+      {/* Product Image Area */}
+      <div className="h-[200px] w-full bg-white p-4 flex items-center justify-center relative overflow-hidden border-b border-gray-50">
+        <button 
+          onClick={() => onToggleFavorite(product)}
+          className={`absolute top-3 right-3 z-10 transition-all transform hover:scale-125 ${isFavorite ? 'text-[#3483FA]' : 'text-gray-300 hover:text-[#3483FA]'}`} 
+          title={isFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+        >
+          <Heart size={22} fill={isFavorite ? "currentColor" : "none"} strokeWidth={isFavorite ? 0 : 2} />
+        </button>
+        <img 
+          src={product.image} 
+          alt={product.name} 
+          className="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-700 ease-in-out"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+
+      {/* Content Area */}
+      <div className="flex-1 flex flex-col p-4">
+        {/* Badges */}
+        <div className="flex flex-wrap gap-2 mb-3">
+          {product.isBestSeller && (
+            <span className="bg-[#FF7733] text-white text-[9px] font-black px-2 py-0.5 rounded-sm uppercase">
+              MAIS VENDIDO
+            </span>
+          )}
+          {product.discount && parseInt(product.discount) > 30 && (
+            <span className="bg-[#3483FA] text-white text-[9px] font-black px-2 py-0.5 rounded-sm uppercase flex items-center gap-1">
+              <span className="text-[10px]">⚡</span> OFERTA IMPERDÍVEL
+            </span>
+          )}
+        </div>
+
+        {/* Product Name */}
+        <h3 className="text-sm text-[#333] leading-tight font-normal mb-2 group-hover:text-blue-600 transition-colors min-h-[40px]">
+          {product.name}
+        </h3>
+
+        {/* Subtitle / Ranking */}
+        {product.subTitle && (
+          <p className="text-[11px] text-[#00A650] font-medium mb-2 leading-tight">
+            {product.subTitle}
+          </p>
+        )}
+
+        {/* Rating Area */}
+        {product.rating && (
+          <div className="flex items-center gap-1 mb-2">
+            <span className="text-[12px] font-bold text-[#3483FA]">{product.rating}</span>
+            <div className="flex items-center text-[#3483FA]">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={10} fill={i < Math.floor(parseFloat(product.rating)) ? "currentColor" : "none"} className="stroke-[2px]" />
+              ))}
+            </div>
+            <span className="text-[12px] text-gray-400">({product.reviewsCount})</span>
+          </div>
+        )}
+
+        {/* Price Area */}
+        <div className="mt-auto">
+          {product.originalPrice && (
+            <p className="text-[12px] text-gray-400 line-through leading-none mb-0.5">{product.originalPrice}</p>
+          )}
+          <div className="flex items-start gap-2 mb-1">
+            <div className="flex items-start">
+              <span className="text-lg font-medium text-gray-900 mt-1 mr-1">R$</span>
+              <span className="text-3xl font-medium text-gray-900 tracking-tighter">{main}</span>
+              <span className="text-sm font-medium text-gray-900 mt-1.5 ml-0.5">{cents}</span>
+            </div>
+            {product.discount && (
+              <span className="text-sm text-[#00A650] font-medium ml-1 mt-1.5">
+                {product.discount}
+              </span>
+            )}
+          </div>
+          
+          {product.installments ? (
+            <p className="text-[12px] text-gray-600 mb-4 h-4">
+              em <span className="text-[#00A650] font-medium">{product.installments}</span>
+            </p>
+          ) : (
+            <p className="text-[12px] text-gray-600 mb-4 h-4">Parcelamento disponível</p>
+          )}
+          
+          {/* Action Button */}
+          <a 
+            href={product.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#3483FA] text-white py-2.5 rounded-full flex items-center justify-center gap-2 w-full hover:bg-blue-600 transition-all shadow-md group/btn"
+          >
+            <ShoppingCart size={16} className="transition-transform group-hover/btn:scale-110" />
+            <span className="text-xs font-bold uppercase tracking-tight">Quero Comprar</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Section = ({ id, title, icon, products, favorites, onToggleFavorite, onViewAll }: { id?: string; title: string; icon?: React.ReactNode; products: any[]; favorites: any[]; onToggleFavorite: (p: any) => void; onViewAll?: () => void; key?: any }) => (
+  <section id={id} className="mb-12 scroll-mt-24">
+    <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center gap-2">
+        <div className="text-ml-blue">
+          {icon || <TrendingUp size={22} />}
+        </div>
+        <h2 className="text-xl md:text-2xl font-semibold text-gray-800">{title}</h2>
+      </div>
+      {onViewAll && products.length > 8 && (
+        <button 
+          onClick={onViewAll}
+          className="text-ml-blue text-sm font-semibold hover:underline flex items-center gap-1"
+        >
+          Ver todos <ChevronRight size={16} />
+        </button>
+      )}
+    </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+      {products.slice(0, onViewAll ? 8 : undefined).map(product => (
+        <ProductCard 
+          key={product.id} 
+          product={product} 
+          isFavorite={favorites.some(f => f.id === product.id)}
+          onToggleFavorite={onToggleFavorite}
+        />
+      ))}
+    </div>
+  </section>
+);
+
+const Footer = ({ onOpenModal }: { onOpenModal: (type: string) => void }) => (
+  <footer className="bg-[#1E224F] text-[#A5A9CC] pt-12 pb-8 border-t border-[#343D7B]">
+    <div className="max-w-7xl mx-auto px-6">
+      {/* Bottom Footer Row */}
+      <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="text-center md:text-left space-y-2">
+          <div className="text-[10px] font-bold text-white/40 uppercase tracking-tighter">
+            © 2026 Mercado Compras — Todos os direitos reservados
+          </div>
+          <p className="text-[9px] max-w-md opacity-50 font-medium">
+            Este site contém links de afiliados. Ao comprar através de nossos links, podemos receber uma comissão.
+          </p>
+        </div>
+
+        {/* Footer Links */}
+        <div className="flex flex-wrap justify-center md:justify-end items-center gap-x-6 gap-y-4 text-[11px] font-medium">
+          <button 
+            onClick={() => onOpenModal('privacy')} 
+            className="hover:text-white transition-colors"
+          >
+            Política de Privacidade
+          </button>
+          <button 
+            onClick={() => onOpenModal('terms')} 
+            className="hover:text-white transition-colors"
+          >
+            Termos de Uso
+          </button>
+          <button 
+            onClick={() => onOpenModal('contact')} 
+            className="hover:text-white transition-colors"
+          >
+            Contato
+          </button>
+
+          <div className="flex items-center gap-4 ml-2 md:ml-4 border-l border-white/10 pl-4 md:pl-6">
+            <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#A5A9CC] hover:text-white transition-all transform hover:scale-110" aria-label="Facebook">
+              <Facebook size={16} />
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#A5A9CC] hover:text-white transition-all transform hover:scale-110" aria-label="Instagram">
+              <Instagram size={16} />
+            </a>
+            <a href="#" target="_blank" rel="noopener noreferrer" className="text-[#A5A9CC] hover:text-white transition-all transform hover:scale-110" aria-label="X (Twitter)">
+              <Twitter size={16} />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+);
+
+const ContentModal = ({ isOpen, type, onClose, favorites, onToggleFavorite }: { isOpen: boolean; type: string; onClose: () => void; favorites: any[]; onToggleFavorite: (p: any) => void }) => {
+  if (type === 'favorites') {
+    return (
+      <AnimatePresence>
+        {isOpen && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={onClose}
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[85vh] overflow-hidden flex flex-col"
+            >
+              <div className="flex items-center justify-between p-6 border-b border-gray-100">
+                <div className="flex items-center gap-2">
+                  <Heart size={24} className="text-[#3483FA] fill-current" />
+                  <h2 className="text-xl font-bold text-gray-900">Meus Favoritos</h2>
+                </div>
+                <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                  <X size={20} className="text-gray-500" />
+                </button>
+              </div>
+              <div className="p-6 overflow-y-auto no-scrollbar flex-grow">
+                {favorites.length === 0 ? (
+                  <div className="text-center py-20 space-y-4">
+                    <div className="bg-gray-50 h-20 w-20 rounded-full flex items-center justify-center mx-auto">
+                      <Heart size={32} className="text-gray-300" />
+                    </div>
+                    <p className="text-gray-500 font-medium">Você ainda não tem produtos favoritos.</p>
+                    <button 
+                      onClick={onClose}
+                      className="text-ml-blue font-bold hover:underline"
+                    >
+                      Começar a comprar
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {favorites.map(product => (
+                      <ProductCard 
+                        key={product.id} 
+                        product={product} 
+                        isFavorite={true}
+                        onToggleFavorite={onToggleFavorite}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    );
+  }
+
+  const meta = MODAL_CONTENT[type];
+  if (!meta) return null;
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            className="relative bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[85vh] overflow-hidden flex flex-col"
+          >
+            <div className="flex items-center justify-between p-6 border-b border-gray-100">
+              <h2 className="text-xl font-bold text-gray-900">{meta.title}</h2>
+              <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                <X size={20} className="text-gray-500" />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto no-scrollbar">
+              {meta.content}
+            </div>
+            <div className="p-4 border-t border-gray-100 flex justify-end">
+              <button 
+                onClick={onClose}
+                className="btn-blue text-sm px-6"
+              >
+                Fechar
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+const CookieBanner = ({ onOpenModal }: { onOpenModal: (type: string) => void }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const consent = localStorage.getItem('cookie-consent');
+    if (!consent) {
+      const timer = setTimeout(() => setIsVisible(true), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handleAccept = () => {
+    localStorage.setItem('cookie-consent', 'true');
+    setIsVisible(false);
+  };
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 100, opacity: 0 }}
+          className="fixed bottom-0 left-0 right-0 z-[100] p-4 md:p-6"
+        >
+          <div className="max-w-7xl mx-auto bg-[#1E224F] text-white rounded-xl shadow-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 border border-[#343D7B]">
+            <div className="space-y-2 text-center md:text-left">
+              <h4 className="text-lg font-bold flex items-center justify-center md:justify-start gap-2">
+                <span className="text-[#FFE600] text-xl">🍪</span> Nós valorizamos sua privacidade
+              </h4>
+              <p className="text-[#A5A9CC] text-sm max-w-3xl leading-relaxed">
+                Utilizamos cookies para melhorar sua experiência, analisar o tráfego do site e personalizar ofertas. 
+                Ao continuar navegando, você concorda com o uso de cookies de acordo com nossa 
+                <button 
+                  onClick={() => onOpenModal('privacy')}
+                  className="text-[#FFE600] hover:underline font-bold mx-1"
+                >
+                  Política de Privacidade
+                </button>.
+              </p>
+            </div>
+            <div className="flex items-center gap-4 w-full md:w-auto">
+              <button 
+                onClick={handleAccept}
+                className="bg-[#FFE600] text-[#1E2A78] font-black px-8 py-3 rounded-full hover:brightness-110 shadow-lg transition-all uppercase text-xs tracking-widest flex-grow md:flex-grow-0"
+              >
+                Aceitar tudo
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+const FilterBar = ({ 
+  sortBy, 
+  onSortChange, 
+  selectedCategory, 
+  onCategoryChange 
+}: { 
+  sortBy: string; 
+  onSortChange: (val: string) => void;
+  selectedCategory: string;
+  onCategoryChange: (val: string) => void;
+}) => {
+  return (
+    <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 mb-8 flex flex-wrap items-center justify-between gap-4">
+      <div className="flex flex-wrap items-center gap-4">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-bold text-gray-500">Ordenar por:</span>
+          <select 
+            value={sortBy}
+            onChange={(e) => onSortChange(e.target.value)}
+            className="bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 outline-none cursor-pointer"
+          >
+            <option value="relevance">Relevância</option>
+            <option value="price_asc">Menor Preço</option>
+            <option value="price_desc">Maior Preço</option>
+            <option value="best_sellers">Mais Vendidos</option>
+          </select>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-bold text-gray-500">Categoria:</span>
+          <select 
+            value={selectedCategory}
+            onChange={(e) => onCategoryChange(e.target.value)}
+            className="bg-gray-50 border border-gray-200 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2 outline-none cursor-pointer"
+          >
+            <option value="all">Todas as Categorias</option>
+            <option value="mais-vendidos">Mais Vendidos</option>
+            {CATEGORIES.map(cat => (
+              <option key={cat.id} value={cat.id}>{cat.title}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+      
+      <div className="text-sm text-gray-500 font-medium bg-gray-50 px-4 py-2 rounded-full hidden sm:block">
+        Encontramos as melhores ofertas para você
+      </div>
+    </div>
+  );
+};
+
+export default function App() {
+  const [modalType, setModalType] = useState<string | null>(null);
+  const [favorites, setFavorites] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [viewAllCategory, setViewAllCategory] = useState<string | null>(null);
+  const [sortBy, setSortBy] = useState('relevance');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [filterType, setFilterType] = useState<'category' | 'discount'>('category');
+
+  useEffect(() => {
+    const saved = localStorage.getItem('favoritos-shop');
+    if (saved) setFavorites(JSON.parse(saved));
+  }, []);
+
+  const toggleFavorite = (product: any) => {
+    setFavorites(prev => {
+      const isFav = prev.some(f => f.id === product.id);
+      const newFavs = isFav 
+        ? prev.filter(f => f.id !== product.id)
+        : [...prev, product];
+      localStorage.setItem('favoritos-shop', JSON.stringify(newFavs));
+      return newFavs;
+    });
+  };
+
+  const getSortedProducts = (products: any[]) => {
+    const list = [...products];
+    if (sortBy === 'price_asc') {
+      return list.sort((a, b) => parsePrice(a.price) - parsePrice(b.price));
+    }
+    if (sortBy === 'price_desc') {
+      return list.sort((a, b) => parsePrice(b.price) - parsePrice(a.price));
+    }
+    if (sortBy === 'best_sellers') {
+      return list.sort((a, b) => (b.isBestSeller ? 1 : 0) - (a.isBestSeller ? 1 : 0));
+    }
+    return list;
+  };
+
+  const filterProducts = (products: any[]) => {
+    let result = [...products];
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      result = result.filter(p => p.name.toLowerCase().includes(term));
+    }
+    return getSortedProducts(result);
+  };
+
+  // Aggregate all products for global views - ensure absolute uniqueness by normalized Name
+  const uniqueAllProducts = (() => {
+    const rawList = [
+      ...BEST_SELLERS.map(p => ({ ...p, categoryId: (p as any).categoryId || 'mais-vendidos' })),
+      ...CATEGORIES.flatMap(cat => cat.products.map(p => ({ ...p, categoryId: cat.id })))
+    ];
+    
+    const seen = new Set();
+    return rawList.filter(item => {
+      // Use normalized Name as the primary unique identifier because IDs in the static data might vary for same products
+      const identifier = item.name.trim().toLowerCase();
+      if (seen.has(identifier)) return false;
+      seen.add(identifier);
+      return true;
+    });
+  })();
+
+  const getFilteredViewAll = () => {
+    let list = uniqueAllProducts;
+    if (filterType === 'discount') {
+      list = list.filter(p => {
+        const discount = parseDiscount(p.discount || '');
+        return discount > 0 && discount <= 70;
+      }).sort((a, b) => parseDiscount(b.discount || '') - parseDiscount(a.discount || ''));
+    } else if (selectedCategory !== 'all') {
+      list = list.filter(p => p.categoryId === selectedCategory);
+    }
+    
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      list = list.filter(p => p.name.toLowerCase().includes(term));
+    }
+    return getSortedProducts(list);
+  };
+
+  const filteredBestSellers = filterProducts(BEST_SELLERS);
+  const filteredCategories = CATEGORIES.map(cat => ({
+    ...cat,
+    products: filterProducts(cat.products)
+  })).filter(cat => cat.products.length > 0);
+
+  const viewAllContent = getFilteredViewAll();
+  const isViewingDeep = viewAllCategory !== null || !!searchTerm;
+
+  const handleSearchChange = (val: string) => {
+    setSearchTerm(val);
+    if (val) setViewAllCategory(null);
+  };
+
+  const clearFilters = () => {
+    setSearchTerm('');
+    setViewAllCategory(null);
+    setSortBy('relevance');
+    setSelectedCategory('all');
+    setFilterType('category');
+  };
+
+  return (
+    <div className="min-h-screen bg-ml-bg-gray text-gray-800">
+      <Header 
+        onOpenModal={setModalType} 
+        searchTerm={searchTerm} 
+        onSearchChange={handleSearchChange} 
+        onViewAll={() => {
+          setFilterType('category');
+          setViewAllCategory('all');
+        }}
+        onViewHighDiscounts={() => {
+          setFilterType('discount');
+          setViewAllCategory('top-discounts');
+        }}
+      />
+      <div className="max-w-7xl mx-auto px-6 py-6 font-sans">
+        <main className="w-full">
+          {!searchTerm && !viewAllCategory && (
+            <BannerCarousel onInternalLink={(link) => setViewAllCategory(link)} />
+          )}
+          
+          {isViewingDeep && (
+            <FilterBar 
+              sortBy={sortBy}
+              onSortChange={setSortBy}
+              selectedCategory={selectedCategory}
+              onCategoryChange={setSelectedCategory}
+            />
+          )}
+
+          {viewAllCategory ? (
+            <div className="mb-12">
+              <button 
+                onClick={() => setViewAllCategory(null)}
+                className="flex items-center gap-2 text-ml-blue font-bold mb-6 hover:underline"
+              >
+                <ChevronLeft size={20} /> Voltar para o início
+              </button>
+              
+              {filterType === 'discount' ? (
+                <Section 
+                  title="OFERTAS IMPERDÍVEIS - ATÉ 70% OFF" 
+                  icon={<Flame size={22} />} 
+                  products={viewAllContent} 
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
+                />
+              ) : viewAllCategory === 'all' ? (
+                <Section 
+                  title="TODAS AS OFERTAS" 
+                  icon={<TrendingUp size={22} />} 
+                  products={viewAllContent} 
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
+                />
+              ) : viewAllCategory === 'mais-vendidos' ? (
+                <Section 
+                  title="MAIS VENDIDOS - TODOS" 
+                  icon={<Star size={22} />} 
+                  products={filterProducts(BEST_SELLERS)} 
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
+                />
+              ) : (
+                (() => {
+                  const cat = CATEGORIES.find(c => c.id === viewAllCategory);
+                  return cat ? (
+                    <Section 
+                      title={`${cat.title} - TODOS`} 
+                      icon={cat.icon} 
+                      products={filterProducts(cat.products)} 
+                      favorites={favorites}
+                      onToggleFavorite={toggleFavorite}
+                    />
+                  ) : null;
+                })()
+              )}
+            </div>
+          ) : searchTerm ? (
+            <div className="mb-12">
+              <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                <Search size={24} className="text-ml-blue" />
+                Resultados para "{searchTerm}"
+              </h2>
+              <Section 
+                title="PRODUTOS ENCONTRADOS" 
+                icon={<TrendingUp size={22} />} 
+                products={viewAllContent} 
+                favorites={favorites}
+                onToggleFavorite={toggleFavorite}
+              />
+            </div>
+          ) : (
+            <>
+              {filteredBestSellers.length > 0 && (
+                <Section 
+                  id="mais-vendidos" 
+                  title="MAIS VENDIDOS" 
+                  icon={<Star size={22} />} 
+                  products={filteredBestSellers} 
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
+                  onViewAll={() => setViewAllCategory('mais-vendidos')}
+                />
+              )}
+
+              {filteredCategories.map(category => (
+                <Section 
+                  key={category.id} 
+                  id={category.id} 
+                  title={category.title} 
+                  icon={category.icon} 
+                  products={category.products} 
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
+                  onViewAll={() => setViewAllCategory(category.id)}
+                />
+              ))}
+            </>
+          )}
+
+          {isViewingDeep && viewAllContent.length === 0 && (
+            <div className="text-center py-20 bg-white rounded-xl shadow-sm border border-gray-100">
+              <Search size={48} className="mx-auto text-gray-300 mb-4" />
+              <h3 className="text-xl font-bold text-gray-800">Nenhum produto encontrado</h3>
+              <p className="text-gray-500 mt-2">Tente buscar por termos diferentes ou ajuste os filtros.</p>
+              <button 
+                onClick={clearFilters}
+                className="mt-6 font-bold text-ml-blue hover:underline"
+              >
+                Limpar todos os filtros
+              </button>
+            </div>
+          )}
+        </main>
+      </div>
+      <Footer onOpenModal={setModalType} />
+      
+      <ContentModal 
+        isOpen={modalType !== null} 
+        type={modalType || ''} 
+        onClose={() => setModalType(null)} 
+        favorites={favorites}
+        onToggleFavorite={toggleFavorite}
+      />
+      <CookieBanner onOpenModal={setModalType} />
+    </div>
+  );
+}
