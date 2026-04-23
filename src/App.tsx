@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, ChevronRight, TrendingUp, Facebook, Instagram, Twitter, Mail, X, ChevronLeft, ShoppingCart, Star, Smartphone, Home, Shirt, Heart, Info, Headset, Utensils, Flame, Zap, ShoppingBag, Tag } from 'lucide-react';
+import { Search, Menu, ChevronRight, TrendingUp, Facebook, Instagram, Twitter, Mail, X, ChevronLeft, ShoppingCart, Star, Smartphone, Home, Shirt, Heart, Info, Headset, Utensils, Flame, Zap, ShoppingBag, Tag, Share2, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useForm, ValidationError } from '@formspree/react';
 
@@ -842,6 +842,9 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
 };
 
 const ProductCard = ({ product, isFavorite, onToggleFavorite }: { product: any; isFavorite: boolean; onToggleFavorite: (p: any) => void; key?: any }) => {
+  const [showShare, setShowShare] = useState(false);
+  const [copied, setCopied] = useState(false);
+
   // Helper to split price into main and cents for styling
   const formatPrice = (priceStr: string) => {
     if (!priceStr) return { main: '0', cents: '00' };
@@ -854,17 +857,94 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite }: { product: any; 
 
   const { main, cents } = formatPrice(product.price);
 
+  const shareText = `Olha esse produto que encontrei no Mercado Compras: ${product.name}`;
+  const shareLink = product.link;
+
+  const handleShare = (platform: string) => {
+    let url = '';
+    switch (platform) {
+      case 'whatsapp':
+        url = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText + ' ' + shareLink)}`;
+        break;
+      case 'facebook':
+        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareLink)}`;
+        break;
+      case 'instagram':
+        navigator.clipboard.writeText(shareLink);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+        return;
+    }
+    if (url) window.open(url, '_blank');
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col h-[500px] relative group hover:shadow-xl transition-all duration-500 overflow-hidden">
       {/* Product Image Area */}
       <div className="h-[200px] w-full bg-white p-4 flex items-center justify-center relative overflow-hidden border-b border-gray-50">
-        <button 
-          onClick={() => onToggleFavorite(product)}
-          className={`absolute top-3 right-3 z-10 transition-all transform hover:scale-125 ${isFavorite ? 'text-[#3483FA]' : 'text-gray-300 hover:text-[#3483FA]'}`} 
-          title={isFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
-        >
-          <Heart size={22} fill={isFavorite ? "currentColor" : "none"} strokeWidth={isFavorite ? 0 : 2} />
-        </button>
+        <div className="absolute top-3 right-3 z-10 flex flex-col gap-2">
+          <button 
+            onClick={() => onToggleFavorite(product)}
+            className={`transition-all transform hover:scale-125 ${isFavorite ? 'text-[#3483FA]' : 'text-gray-300 hover:text-[#3483FA]'}`} 
+            title={isFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+          >
+            <Heart size={22} fill={isFavorite ? "currentColor" : "none"} strokeWidth={isFavorite ? 0 : 2} />
+          </button>
+          
+          <div className="relative">
+            <button 
+              onClick={() => setShowShare(!showShare)}
+              className={`transition-all transform hover:scale-125 ${showShare ? 'text-green-500' : 'text-gray-300 hover:text-green-500'}`}
+              title="Compartilhar"
+            >
+              <Share2 size={22} />
+            </button>
+            
+            <AnimatePresence>
+              {showShare && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.8, x: 10 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, x: 10 }}
+                  className="absolute right-full mr-2 top-0 bg-white shadow-xl border border-gray-100 rounded-lg p-2 flex gap-3 z-20"
+                >
+                  <button 
+                    onClick={() => handleShare('whatsapp')}
+                    className="text-green-500 hover:scale-110 transition-transform"
+                    title="WhatsApp"
+                  >
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-green-50">
+                      <Zap size={16} fill="currentColor" />
+                    </div>
+                  </button>
+                  <button 
+                    onClick={() => handleShare('facebook')}
+                    className="text-blue-600 hover:scale-110 transition-transform"
+                    title="Facebook"
+                  >
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50">
+                      <Facebook size={16} fill="currentColor" />
+                    </div>
+                  </button>
+                  <button 
+                    onClick={() => handleShare('instagram')}
+                    className="text-pink-600 hover:scale-110 transition-transform relative"
+                    title="Copiar link para Instagram"
+                  >
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-pink-50">
+                      {copied ? <Check size={16} /> : <Instagram size={16} />}
+                    </div>
+                    {copied && (
+                      <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] bg-black text-white px-1.5 py-0.5 rounded whitespace-nowrap">
+                        Copiado!
+                      </span>
+                    )}
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
         <img 
           src={product.image} 
           alt={product.name} 
