@@ -675,7 +675,7 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
       {/* Bottom Row: Navigation */}
       <nav className="flex items-center gap-6 text-[13px] font-medium text-gray-700 h-[32px] mt-1">
         <a href="#" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
-          <Home size={14} /> Página Inicial
+          <Home size={14} /> <span translate="no">Página Inicial</span>
         </a>
         <a href="#mais-vendidos" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
           <TrendingUp size={14} /> Mais Vendidos
@@ -1007,7 +1007,7 @@ const Footer = ({ onOpenModal }: { onOpenModal: (type: string) => void }) => (
             onClick={() => onOpenModal('privacy')} 
             className="hover:text-white transition-colors"
           >
-            Privacidade
+            Política de Privacidade
           </button>
           <button 
             onClick={() => onOpenModal('terms')} 
