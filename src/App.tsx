@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, ChevronRight, TrendingUp, Facebook, Instagram, Twitter, Mail, X, ChevronLeft, ShoppingCart, Star, Smartphone, Home, Shirt, Heart, Info, Headset, Utensils, Flame, Zap, ShoppingBag, Tag, Share2, Check } from 'lucide-react';
+import { Search, Menu, ChevronRight, TrendingUp, Facebook, Instagram, Twitter, Mail, X, ChevronLeft, ShoppingCart, Star, Smartphone, Home, Shirt, Heart, Info, Headset, Utensils, Flame, Zap, ShoppingBag, Tag, Share2, Check, ZoomIn } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useForm, ValidationError } from '@formspree/react';
 
@@ -841,7 +841,7 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
   );
 };
 
-const ProductCard = ({ product, isFavorite, onToggleFavorite }: { product: any; isFavorite: boolean; onToggleFavorite: (p: any) => void; key?: any }) => {
+const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { product: any; isFavorite: boolean; onToggleFavorite: (p: any) => void; onExpand: (p: any) => void; key?: any }) => {
   const [showShare, setShowShare] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -881,77 +881,83 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite }: { product: any; 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col h-[500px] relative group hover:shadow-xl transition-all duration-500 overflow-hidden">
       {/* Product Image Area */}
-      <div className="h-[200px] w-full bg-white p-4 flex items-center justify-center relative overflow-hidden border-b border-gray-50">
-        <div className="absolute top-3 right-3 z-10 flex flex-col gap-2">
-          <button 
-            onClick={() => onToggleFavorite(product)}
-            className={`transition-all transform hover:scale-125 ${isFavorite ? 'text-[#3483FA]' : 'text-gray-300 hover:text-[#3483FA]'}`} 
-            title={isFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
-          >
-            <Heart size={22} fill={isFavorite ? "currentColor" : "none"} strokeWidth={isFavorite ? 0 : 2} />
-          </button>
-          
-          <div className="relative">
+        <div 
+          className="h-[200px] w-full bg-white p-4 flex items-center justify-center relative overflow-hidden border-b border-gray-50 cursor-zoom-in"
+          onClick={() => onExpand(product)}
+        >
+          <div className="absolute top-3 right-3 z-10 flex flex-col gap-2" onClick={e => e.stopPropagation()}>
             <button 
-              onClick={() => setShowShare(!showShare)}
-              className={`transition-all transform hover:scale-125 ${showShare ? 'text-green-500' : 'text-gray-300 hover:text-green-500'}`}
-              title="Compartilhar"
+              onClick={() => onToggleFavorite(product)}
+              className={`transition-all transform hover:scale-125 ${isFavorite ? 'text-[#3483FA]' : 'text-gray-300 hover:text-[#3483FA]'}`} 
+              title={isFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
             >
-              <Share2 size={22} />
+              <Heart size={22} fill={isFavorite ? "currentColor" : "none"} strokeWidth={isFavorite ? 0 : 2} />
             </button>
             
-            <AnimatePresence>
-              {showShare && (
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.8, x: 10 }}
-                  animate={{ opacity: 1, scale: 1, x: 0 }}
-                  exit={{ opacity: 0, scale: 0.8, x: 10 }}
-                  className="absolute right-full mr-2 top-0 bg-white shadow-xl border border-gray-100 rounded-lg p-2 flex gap-3 z-20"
-                >
-                  <button 
-                    onClick={() => handleShare('whatsapp')}
-                    className="text-green-500 hover:scale-110 transition-transform"
-                    title="WhatsApp"
+            <div className="relative">
+              <button 
+                onClick={() => setShowShare(!showShare)}
+                className={`transition-all transform hover:scale-125 ${showShare ? 'text-green-500' : 'text-gray-300 hover:text-green-500'}`}
+                title="Compartilhar"
+              >
+                <Share2 size={22} />
+              </button>
+              
+              <AnimatePresence>
+                {showShare && (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.8, x: 10 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.8, x: 10 }}
+                    className="absolute right-full mr-2 top-0 bg-white shadow-xl border border-gray-100 rounded-lg p-2 flex gap-3 z-20"
                   >
-                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-green-50">
-                      <Zap size={16} fill="currentColor" />
-                    </div>
-                  </button>
-                  <button 
-                    onClick={() => handleShare('facebook')}
-                    className="text-blue-600 hover:scale-110 transition-transform"
-                    title="Facebook"
-                  >
-                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50">
-                      <Facebook size={16} fill="currentColor" />
-                    </div>
-                  </button>
-                  <button 
-                    onClick={() => handleShare('instagram')}
-                    className="text-pink-600 hover:scale-110 transition-transform relative"
-                    title="Copiar link para Instagram"
-                  >
-                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-pink-50">
-                      {copied ? <Check size={16} /> : <Instagram size={16} />}
-                    </div>
-                    {copied && (
-                      <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] bg-black text-white px-1.5 py-0.5 rounded whitespace-nowrap">
-                        Copiado!
-                      </span>
-                    )}
-                  </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                    <button 
+                      onClick={() => handleShare('whatsapp')}
+                      className="text-green-500 hover:scale-110 transition-transform"
+                      title="WhatsApp"
+                    >
+                      <div className="w-8 h-8 flex items-center justify-center rounded-full bg-green-50">
+                        <Zap size={16} fill="currentColor" />
+                      </div>
+                    </button>
+                    <button 
+                      onClick={() => handleShare('facebook')}
+                      className="text-blue-600 hover:scale-110 transition-transform"
+                      title="Facebook"
+                    >
+                      <div className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-50">
+                        <Facebook size={16} fill="currentColor" />
+                      </div>
+                    </button>
+                    <button 
+                      onClick={() => handleShare('instagram')}
+                      className="text-pink-600 hover:scale-110 transition-transform relative"
+                      title="Copiar link para Instagram"
+                    >
+                      <div className="w-8 h-8 flex items-center justify-center rounded-full bg-pink-50">
+                        {copied ? <Check size={16} /> : <Instagram size={16} />}
+                      </div>
+                      {copied && (
+                        <span className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[10px] bg-black text-white px-1.5 py-0.5 rounded whitespace-nowrap">
+                          Copiado!
+                        </span>
+                      )}
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
+          <div className="absolute bottom-2 right-2 text-gray-300 group-hover:text-ml-blue transition-colors opacity-0 group-hover:opacity-100">
+            <ZoomIn size={18} />
+          </div>
+          <img 
+            src={product.image} 
+            alt={product.name} 
+            className="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-700 ease-in-out"
+            referrerPolicy="no-referrer"
+          />
         </div>
-        <img 
-          src={product.image} 
-          alt={product.name} 
-          className="max-h-full max-w-full object-contain group-hover:scale-110 transition-transform duration-700 ease-in-out"
-          referrerPolicy="no-referrer"
-        />
-      </div>
 
       {/* Content Area */}
       <div className="flex-1 flex flex-col p-4">
@@ -1036,7 +1042,7 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite }: { product: any; 
   );
 };
 
-const Section = ({ id, title, icon, products, favorites, onToggleFavorite, onViewAll }: { id?: string; title: string; icon?: React.ReactNode; products: any[]; favorites: any[]; onToggleFavorite: (p: any) => void; onViewAll?: () => void; key?: any }) => (
+const Section = ({ id, title, icon, products, favorites, onToggleFavorite, onExpand, onViewAll }: { id?: string; title: string; icon?: React.ReactNode; products: any[]; favorites: any[]; onToggleFavorite: (p: any) => void; onExpand: (p: any) => void; onViewAll?: () => void; key?: any }) => (
   <section id={id} className="mb-12 scroll-mt-24">
     <div className="flex items-center justify-between mb-6">
       <div className="flex items-center gap-2">
@@ -1061,6 +1067,7 @@ const Section = ({ id, title, icon, products, favorites, onToggleFavorite, onVie
           product={product} 
           isFavorite={favorites.some(f => f.id === product.id)}
           onToggleFavorite={onToggleFavorite}
+          onExpand={onExpand}
         />
       ))}
     </div>
@@ -1119,7 +1126,12 @@ const Footer = ({ onOpenModal }: { onOpenModal: (type: string) => void }) => (
   </footer>
 );
 
-const ContentModal = ({ isOpen, type, onClose, favorites, onToggleFavorite }: { isOpen: boolean; type: string; onClose: () => void; favorites: any[]; onToggleFavorite: (p: any) => void }) => {
+const ContentModal = ({ isOpen, type, onClose, favorites, onToggleFavorite, onExpand }: { isOpen: boolean; type: string; onClose: () => void; favorites: any[]; onToggleFavorite: (p: any) => void; onExpand: (p: any) => void }) => {
+  const handleExpand = (p: any) => {
+    onExpand(p);
+    onClose();
+  };
+
   if (type === 'favorites') {
     return (
       <AnimatePresence>
@@ -1169,6 +1181,7 @@ const ContentModal = ({ isOpen, type, onClose, favorites, onToggleFavorite }: { 
                         product={product} 
                         isFavorite={true}
                         onToggleFavorite={onToggleFavorite}
+                        onExpand={handleExpand}
                       />
                     ))}
                   </div>
@@ -1334,6 +1347,7 @@ const FilterBar = ({
 
 export default function App() {
   const [modalType, setModalType] = useState<string | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
   const [favorites, setFavorites] = useState<any[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [viewAllCategory, setViewAllCategory] = useState<string | null>(null);
@@ -1483,6 +1497,7 @@ export default function App() {
                   products={viewAllContent} 
                   favorites={favorites}
                   onToggleFavorite={toggleFavorite}
+                  onExpand={setSelectedProduct}
                 />
               ) : viewAllCategory === 'all' ? (
                 <Section 
@@ -1491,6 +1506,7 @@ export default function App() {
                   products={viewAllContent} 
                   favorites={favorites}
                   onToggleFavorite={toggleFavorite}
+                  onExpand={setSelectedProduct}
                 />
               ) : viewAllCategory === 'mais-vendidos' ? (
                 <Section 
@@ -1499,6 +1515,7 @@ export default function App() {
                   products={filterProducts(BEST_SELLERS)} 
                   favorites={favorites}
                   onToggleFavorite={toggleFavorite}
+                  onExpand={setSelectedProduct}
                 />
               ) : (
                 (() => {
@@ -1510,6 +1527,7 @@ export default function App() {
                       products={filterProducts(cat.products)} 
                       favorites={favorites}
                       onToggleFavorite={toggleFavorite}
+                      onExpand={setSelectedProduct}
                     />
                   ) : null;
                 })()
@@ -1527,6 +1545,7 @@ export default function App() {
                 products={viewAllContent} 
                 favorites={favorites}
                 onToggleFavorite={toggleFavorite}
+                onExpand={setSelectedProduct}
               />
             </div>
           ) : (
@@ -1539,6 +1558,7 @@ export default function App() {
                   products={filteredBestSellers} 
                   favorites={favorites}
                   onToggleFavorite={toggleFavorite}
+                  onExpand={setSelectedProduct}
                   onViewAll={() => setViewAllCategory('mais-vendidos')}
                 />
               )}
@@ -1552,6 +1572,7 @@ export default function App() {
                   products={category.products} 
                   favorites={favorites}
                   onToggleFavorite={toggleFavorite}
+                  onExpand={setSelectedProduct}
                   onViewAll={() => setViewAllCategory(category.id)}
                 />
               ))}
@@ -1581,7 +1602,96 @@ export default function App() {
         onClose={() => setModalType(null)} 
         favorites={favorites}
         onToggleFavorite={toggleFavorite}
+        onExpand={setSelectedProduct}
       />
+
+      <AnimatePresence>
+        {selectedProduct && (
+          <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedProduct(null)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative bg-white rounded-2xl shadow-2xl overflow-hidden max-w-4xl w-full flex flex-col md:flex-row"
+            >
+              <button 
+                onClick={() => setSelectedProduct(null)}
+                className="absolute top-4 right-4 z-10 bg-black/10 hover:bg-black/20 p-2 rounded-full transition-colors text-gray-800"
+              >
+                <X size={24} />
+              </button>
+
+              <div className="w-full md:w-1/2 p-12 bg-white flex items-center justify-center">
+                <img 
+                  src={selectedProduct.image} 
+                  alt={selectedProduct.name} 
+                  className="max-h-[60vh] max-w-full object-contain"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              <div className="w-full md:w-1/2 p-8 bg-gray-50 flex flex-col justify-center">
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {selectedProduct.isBestSeller && (
+                    <span className="bg-[#FF7733] text-white text-[10px] font-black px-3 py-1 rounded-sm uppercase">
+                      MAIS VENDIDO
+                    </span>
+                  )}
+                  {selectedProduct.discount && (
+                    <span className="bg-[#00A650] text-white text-[10px] font-black px-3 py-1 rounded-sm uppercase">
+                      {selectedProduct.discount} OFF
+                    </span>
+                  )}
+                </div>
+
+                <h3 className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
+                  {selectedProduct.name}
+                </h3>
+                
+                {selectedProduct.subTitle && (
+                  <p className="text-sm text-[#00A650] font-bold mb-6">
+                    {selectedProduct.subTitle}
+                  </p>
+                )}
+
+                <div className="mb-8">
+                  {selectedProduct.originalPrice && (
+                    <p className="text-lg text-gray-400 line-through mb-1">{selectedProduct.originalPrice}</p>
+                  )}
+                  <p className="text-4xl font-bold text-gray-900">{selectedProduct.price}</p>
+                  {selectedProduct.installments && (
+                    <p className="text-gray-600 mt-2">
+                      em <span className="text-[#00A650] font-medium">{selectedProduct.installments}</span>
+                    </p>
+                  )}
+                </div>
+
+                <a 
+                  href={selectedProduct.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#3483FA] text-white py-4 px-8 rounded-full font-black text-center hover:bg-blue-600 transition-all shadow-xl flex items-center justify-center gap-3 active:scale-95"
+                >
+                  <ShoppingCart size={22} />
+                  COMPRAR AGORA NO MERCADO LIVRE
+                </a>
+                
+                <p className="text-center text-[10px] text-gray-400 mt-4 uppercase font-bold tracking-widest">
+                  Compra Segura Garantida
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+      
       <CookieBanner onOpenModal={setModalType} />
     </div>
   );
