@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.mercadocompras.shop/sitemap.xml
+Sitemap: https://ais-pre-nxyo7jfbw56riroe2hv7we-212905307900.us-east5.run.app/sitemap.xml
