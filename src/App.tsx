@@ -1522,18 +1522,15 @@ const Footer = ({ onOpenModal }: { onOpenModal: (type: string) => void }) => (
   <footer className="bg-[#1E224F] text-[#A5A9CC] pt-12 pb-8 border-t border-[#343D7B]">
     <div className="max-w-7xl mx-auto px-6">
       {/* Bottom Footer Row */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="text-center md:text-left space-y-4">
-            <div className="flex flex-col items-center md:items-start gap-4">
-              <img src={LOGO_URL} alt="Logo" className="h-8 w-auto brightness-0 invert opacity-50" />
-              <div className="text-[10px] font-bold text-white/40 uppercase tracking-tighter">
-                © 2026 Mercado Compras — Todos os direitos reservados
-              </div>
-            </div>
-            <p className="text-[10px] max-w-md opacity-40 font-medium leading-relaxed">
-              O Mercado Compras é um participante do Programa de Afiliados do Mercado Livre, um programa de publicidade de afiliados projetado para fornecer um meio para sites ganharem taxas de publicidade por meio de links.
-            </p>
+      <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+        <div className="text-left space-y-4">
+          <div className="text-[10px] font-bold text-white/40 uppercase tracking-widest">
+            © 2026 Mercado Compras — Todos os direitos reservados
           </div>
+          <p className="text-[11px] max-w-2xl opacity-60 font-medium leading-relaxed">
+            O Mercado Compras é um participante do Programa de Afiliados do Mercado Livre, um programa de publicidade de afiliados projetado para fornecer um meio para sites ganharem taxas de publicidade por meio de links.
+          </p>
+        </div>
 
         {/* Footer Links */}
         <div className="flex flex-wrap justify-center md:justify-end items-center gap-x-6 gap-y-4 text-[11px] font-medium">
