@@ -209,8 +209,8 @@ const CAROUSEL_PRODUCTS = [
   },
   {
     isFullImage: true,
-    imageUrl: "https://i.postimg.cc/kgxS0sPS/copa-do-mundo-2026-album-capa-brochura-fifa-world-cup-2026.jpg",
-    affiliateLink: "https://meli.la/2kYKhec",
+    imageUrl: "https://i.postimg.cc/sDX2z8Kb/super-ofertas-casa-e-cozinha.png",
+    affiliateLink: "internal:casa-e-cozinha",
     badge: "",
     releaseDate: "",
     title: "",
