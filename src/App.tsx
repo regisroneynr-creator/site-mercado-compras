@@ -3,6 +3,35 @@ import { Search, Menu, ChevronRight, TrendingUp, Facebook, Instagram, Twitter, M
 import { motion, AnimatePresence } from 'motion/react';
 import { useForm, ValidationError } from '@formspree/react';
 
+// --- GOOGLE ANALYTICS ---
+const gaId = (import.meta as any).env.VITE_GA_MEASUREMENT_ID;
+
+const useGoogleAnalytics = (id: string | undefined) => {
+  useEffect(() => {
+    if (!id || typeof window === 'undefined') return;
+
+    // Google Tag (gtag.js)
+    const script1 = document.createElement('script');
+    script1.async = true;
+    script1.src = `https://www.googletagmanager.com/gtag/js?id=${id}`;
+    document.head.appendChild(script1);
+
+    const script2 = document.createElement('script');
+    script2.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${id}');
+    `;
+    document.head.appendChild(script2);
+
+    return () => {
+      document.head.removeChild(script1);
+      document.head.removeChild(script2);
+    };
+  }, [id]);
+};
+
 // --- UTILS ---
 const parsePrice = (priceStr: string): number => {
   if (!priceStr) return 0;
@@ -1819,6 +1848,7 @@ const FilterBar = ({
 };
 
 export default function App() {
+  useGoogleAnalytics(gaId);
   const [modalType, setModalType] = useState<string | null>(null);
   const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
   const [favorites, setFavorites] = useState<any[]>([]);
