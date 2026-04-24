@@ -642,10 +642,7 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
       <div className="flex items-center gap-8 h-[52px]">
         {/* Logo */}
         <div className="flex-shrink-0">
-          <button onClick={onHomeClick} className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
-            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-ml-blue shadow-sm border border-gray-100 group-hover:scale-110 transition-transform">
-              <Shirt size={22} />
-            </div>
+          <button onClick={onHomeClick} className="flex items-center hover:opacity-80 transition-opacity">
             <img 
               src={LOGO_URL} 
               alt="Mercado Compras" 
@@ -1118,68 +1115,17 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
   );
 };
 
-const CategoryQuickLinks = ({ onCategoryClick }: { onCategoryClick: (id: string) => void }) => {
-  const [isLoading, setIsLoading] = useState(true);
-  const sortedCategories = [...CATEGORIES].sort((a, b) => a.title.localeCompare(b.title));
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1200);
-    return () => clearTimeout(timer);
-  }, []);
-  
-  return (
-    <div className="bg-[#F5F5F5] py-12 mb-8 border-y border-gray-200/50 min-h-[300px] flex items-center justify-center">
-      <div className="max-w-7xl mx-auto px-6 w-full">
-        {isLoading ? (
-          <div className="flex flex-col items-center justify-center gap-6 py-20">
-            <motion.div 
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              className="w-16 h-16 rounded-full bg-white shadow-xl flex items-center justify-center text-ml-blue border border-gray-100"
-            >
-              <Shirt size={32} />
-            </motion.div>
-            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest animate-pulse">Preparando ofertas...</p>
-          </div>
-        ) : (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-              {sortedCategories.map(cat => (
-                <button
-                  key={cat.id}
-                  onClick={() => onCategoryClick(cat.id)}
-                  className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center gap-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
-                >
-                  <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-ml-blue group-hover:bg-ml-blue group-hover:text-white transition-colors duration-300">
-                    {cat.icon}
-                  </div>
-                  <span className="text-xs font-black text-gray-400 group-hover:text-ml-blue transition-colors tracking-widest uppercase">
-                    {cat.title}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </div>
-    </div>
-  );
-};
-
 const Section = ({ id, title, icon, products, favorites, onToggleFavorite, onExpand, onViewAll }: { id?: string; title: string; icon?: React.ReactNode; products: any[]; favorites: any[]; onToggleFavorite: (p: any) => void; onExpand: (p: any) => void; onViewAll?: () => void; key?: any }) => (
   <section id={id} className="mb-12 scroll-mt-24">
     <div className="flex items-center justify-between mb-6">
       <div 
-        className={`flex items-center gap-2 ${onViewAll ? 'cursor-pointer group' : ''}`}
+        className={`flex items-center gap-4 ${onViewAll ? 'cursor-pointer group' : ''}`}
         onClick={onViewAll}
       >
         <div className={`w-9 h-9 md:w-11 md:h-11 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center text-ml-blue flex-shrink-0 ${onViewAll ? 'group-hover:scale-110 transition-all group-hover:border-ml-blue' : 'transition-all'}`}>
           {icon ? React.cloneElement(icon as React.ReactElement, { size: 18 }) : <TrendingUp size={18} />}
         </div>
+        <h2 className={`text-xl md:text-2xl font-semibold text-gray-800 ${onViewAll ? 'group-hover:text-ml-blue transition-colors' : ''}`}>{title}</h2>
       </div>
       {onViewAll && products.length > 8 && (
         <button 
@@ -1628,19 +1574,13 @@ export default function App() {
           setFilterType('category');
           setViewAllCategory(id);
         }}
+        onHomeClick={() => setViewAllCategory(null)}
       />
       <div className="max-w-7xl mx-auto px-6 py-6 font-sans">
         <main className="w-full">
           {!searchTerm && !viewAllCategory && (
             <>
               <BannerCarousel onInternalLink={(link) => setViewAllCategory(link)} />
-              <CategoryQuickLinks 
-                onCategoryClick={(id) => {
-                  setFilterType('category');
-                  setViewAllCategory(id);
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }} 
-              />
             </>
           )}
           
