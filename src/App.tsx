@@ -1200,7 +1200,7 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
 
   return (
     <section className="bg-white mb-6 lg:mb-12 overflow-hidden relative group rounded-xl lg:rounded-3xl shadow-md border border-gray-100">
-      <div className="max-w-[1231px] w-full aspect-[1231/360] mx-auto relative flex items-center bg-white rounded-xl lg:rounded-3xl overflow-hidden">
+      <div className="max-w-[1231px] w-full min-h-[140px] aspect-[1231/360] md:aspect-auto md:h-[360px] mx-auto relative flex items-center bg-white rounded-xl lg:rounded-3xl overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -1277,12 +1277,12 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
         </AnimatePresence>
 
         {/* Carousel Dots */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+        <div className="absolute bottom-2 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10 bg-white/40 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/50">
           {CAROUSEL_PRODUCTS.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrent(i)}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${current === i ? 'bg-ml-blue w-8' : 'bg-gray-300 hover:bg-gray-400'}`}
+              className={`w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${current === i ? 'bg-[#3483FA] w-4 sm:w-8' : 'bg-gray-400/60 hover:bg-gray-500'}`}
             />
           ))}
         </div>
@@ -1346,7 +1346,7 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
     <motion.div 
       whileHover={{ scale: 1.025, y: -5 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col min-h-[420px] sm:h-[500px] relative group hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+      className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col min-h-[460px] sm:min-h-[500px] relative group hover:shadow-xl transition-shadow duration-300 overflow-hidden"
     >
       {/* Product Image Area */}
       <div className="h-[140px] sm:h-[200px] w-full bg-white p-4 flex items-center justify-center relative overflow-hidden border-b border-gray-50 cursor-zoom-in"
@@ -1489,11 +1489,11 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
           </div>
           
           {product.installments ? (
-            <p className="text-[12px] text-gray-600 mb-4 h-4">
+            <p className="text-[12px] text-gray-600 mb-4 min-h-[1.25rem]">
               em <span className="text-[#00A650] font-medium">{product.installments}</span>
             </p>
           ) : (
-            <p className="text-[12px] text-gray-600 mb-4 h-4">Parcelamento disponível</p>
+            <p className="text-[12px] text-gray-600 mb-4 min-h-[1.25rem]">Parcelamento disponível</p>
           )}
           
           {/* Action Button */}
