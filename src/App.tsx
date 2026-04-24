@@ -754,26 +754,16 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
         <a href="#moda" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
           <Shirt size={14} /> Moda
         </a>
-        <button onClick={() => onOpenModal('favorites')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
-          <Heart size={14} /> Favoritos
-        </button>
-        <button onClick={() => onOpenModal('about')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
-          <Info size={14} /> Sobre
-        </button>
-        <button onClick={() => onOpenModal('contact')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
-          <Headset size={14} /> Contato
-        </button>
-
-        <div className="ml-auto flex items-center gap-4 border-l border-black/5 pl-6">
-          <a href="#" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-[#1E2A78] transition-all transform hover:scale-110" aria-label="Facebook">
-            <Facebook size={16} />
-          </a>
-          <a href="#" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-[#1E2A78] transition-all transform hover:scale-110" aria-label="Instagram">
-            <Instagram size={16} />
-          </a>
-          <a href="#" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-[#1E2A78] transition-all transform hover:scale-110" aria-label="X (Twitter)">
-            <Twitter size={16} />
-          </a>
+        <div className="ml-auto flex items-center gap-6">
+          <button onClick={() => onOpenModal('favorites')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
+            <Heart size={14} /> Favoritos
+          </button>
+          <button onClick={() => onOpenModal('about')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
+            <Info size={14} /> Sobre
+          </button>
+          <button onClick={() => onOpenModal('contact')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
+            <Headset size={14} /> Contato
+          </button>
         </div>
       </nav>
     </div>
