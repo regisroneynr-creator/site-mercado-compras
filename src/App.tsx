@@ -932,10 +932,10 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
               animate={{ opacity: 1, x: 0 }}
               whileHover={{ scale: 1.01 }}
               onClick={onViewHighDiscounts}
-              className="flex-shrink-0 w-[436px] h-[54px] overflow-hidden rounded-md cursor-pointer border border-black/5 shadow-sm"
+              className="flex-shrink-0 w-[436px] h-[54px] overflow-hidden rounded-tl-2xl rounded-br-2xl cursor-pointer border border-black/5 shadow-sm"
             >
               <img 
-                src="https://i.postimg.cc/qvwjGL7F/ofertas-imperdiveis.gif" 
+                src="https://i.postimg.cc/fTbn3HTj/ofertas-imperdiveis.gif" 
                 alt="Ofertas Imperdíveis" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
