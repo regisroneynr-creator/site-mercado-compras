@@ -870,6 +870,7 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
   onHomeClick: () => void;
 }) => {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMenuLoading, setIsMenuLoading] = useState(false);
   const sortedCategories = [...CATEGORIES].sort((a, b) => a.title.localeCompare(b.title));
 
@@ -879,142 +880,273 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
     setTimeout(() => setIsMenuLoading(false), 500);
   };
 
+  const navLinks = [
+    { label: 'Página Inicial', icon: <Home size={18} />, onClick: onHomeClick },
+    { label: 'OFERTAS IMPERDÍVEIS', icon: <Tag size={18} />, onClick: onViewHighDiscounts, highlight: true },
+    { label: 'Mais Vendidos', icon: <TrendingUp size={18} />, href: '#mais-vendidos' },
+    { label: 'Eletrônicos', icon: <Smartphone size={18} />, href: '#eletronicos' },
+    { label: 'Casa e Cozinha', icon: <Utensils size={18} />, href: '#casa-e-cozinha' },
+    { label: 'Moda', icon: <Shirt size={18} />, href: '#moda' },
+  ];
+
   return (
-    <header className="bg-[#FFE600] h-[99px] px-6 sticky top-0 z-50 flex items-center">
-    <div className="max-w-7xl mx-auto w-full flex flex-col justify-center h-full">
-      {/* Top Row: Logo + Search + Ad */}
-      <div className="flex items-center gap-8 h-[52px]">
-        {/* Logo */}
-        <div className="flex-shrink-0">
-          <button onClick={onHomeClick} className="flex items-center hover:opacity-80 transition-opacity">
-            <img 
-              src={LOGO_URL} 
-              alt="Mercado Compras" 
-              className="h-10 w-auto object-contain"
-              referrerPolicy="no-referrer"
-            />
+    <header className="bg-[#FFE600] h-auto lg:h-[99px] sticky top-0 z-[60] shadow-sm">
+      <div className="max-w-7xl mx-auto w-full px-4 lg:px-6 py-2 lg:py-0">
+        {/* Top Row: Logo + Search + Ad */}
+        <div className="flex items-center justify-between lg:justify-start gap-4 lg:gap-8 h-12 lg:h-[52px]">
+          {/* Mobile Menu Button */}
+          <button 
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="lg:hidden p-2 text-gray-800"
+          >
+            <Menu size={24} />
           </button>
+
+          {/* Logo */}
+          <div className="flex-shrink-0">
+            <button onClick={onHomeClick} className="flex items-center hover:opacity-80 transition-opacity">
+              <img 
+                src={LOGO_URL} 
+                alt="Mercado Compras" 
+                className="h-8 lg:h-10 w-auto object-contain"
+                referrerPolicy="no-referrer"
+              />
+            </button>
+          </div>
+
+          {/* Search Bar - Desktop */}
+          <div className="hidden lg:flex flex-grow items-center gap-6 h-full">
+            <div className="relative w-full max-w-[580px]">
+              <input 
+                type="text" 
+                value={searchTerm}
+                onChange={(e) => onSearchChange(e.target.value)}
+                className="w-full h-9 px-4 rounded bg-white border-0 shadow-[0_1px_2px_0_rgba(0,0,0,0.2)] focus:outline-none placeholder-gray-400 text-sm"
+                placeholder="Buscar produtos, marcas e muito mais..."
+              />
+            </div>
+
+            {/* Animated GIF Banner */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              whileHover={{ scale: 1.01 }}
+              onClick={onViewHighDiscounts}
+              className="flex-shrink-0 w-[436px] h-[54px] overflow-hidden rounded-md cursor-pointer border border-black/5 shadow-sm"
+            >
+              <img 
+                src="https://i.postimg.cc/qvwjGL7F/ofertas-imperdiveis.gif" 
+                alt="Ofertas Imperdíveis" 
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </motion.div>
+          </div>
+
+          {/* Mobile Search Icon / Favorite */}
+          <div className="lg:hidden flex items-center gap-2 text-gray-800">
+            <button onClick={() => onOpenModal('favorites')} className="p-2">
+              <Heart size={22} />
+            </button>
+          </div>
         </div>
 
-        {/* Search Bar Column */}
-        <div className="flex-grow flex items-center gap-6 h-full">
-          <div className="relative w-full max-w-[580px]">
+        {/* Mobile Search Bar Row */}
+        <div className="lg:hidden mt-2 mb-1">
+          <div className="relative">
             <input 
               type="text" 
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full h-9 px-4 rounded bg-white border-0 shadow-[0_1px_2px_0_rgba(0,0,0,0.2)] focus:outline-none placeholder-gray-400 text-sm"
-              placeholder="Buscar produtos, marcas e muito mais..."
+              className="w-full h-10 px-4 pl-10 rounded-full bg-white border-0 shadow-sm focus:outline-none placeholder-gray-400 text-sm"
+              placeholder="Estou buscando por..."
             />
+            <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           </div>
-
-          {/* Animated GIF Banner */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            whileHover={{ scale: 1.01 }}
-            onClick={onViewHighDiscounts}
-            className="hidden lg:flex flex-shrink-0 w-[436px] h-[54px] overflow-hidden rounded-md cursor-pointer border border-black/5 shadow-sm"
-          >
-            <img 
-              src="https://i.postimg.cc/qvwjGL7F/ofertas-imperdiveis.gif" 
-              alt="Ofertas Imperdíveis" 
-              className="w-full h-full object-cover"
-              referrerPolicy="no-referrer"
-            />
-          </motion.div>
         </div>
+
+        {/* Bottom Row: Navigation (Desktop Only) */}
+        <nav className="hidden lg:flex items-center gap-6 text-[13px] font-medium text-gray-700 h-[32px] mt-1">
+          <button onClick={onHomeClick} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors h-full">
+            <Home size={14} /> <span translate="no">Página Inicial</span>
+          </button>
+
+          {/* Categories Dropdown */}
+          <div 
+            className="relative h-full flex items-center"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={() => setIsCategoriesOpen(false)}
+          >
+            <button className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors h-full">
+              Categorias <ChevronDown size={14} className={`transition-transform duration-200 ${isCategoriesOpen ? 'rotate-180' : ''}`} />
+            </button>
+            <AnimatePresence>
+              {isCategoriesOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="absolute top-full left-0 bg-white border border-gray-100 shadow-xl rounded-md py-2 min-w-[220px] z-[60]"
+                >
+                  {isMenuLoading ? (
+                    <div className="py-8 flex flex-col items-center justify-center gap-2">
+                      <motion.div 
+                        animate={{ rotate: 360 }}
+                        transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                        className="w-6 h-6 border-2 border-ml-blue border-t-transparent rounded-full"
+                      />
+                      <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Carregando...</span>
+                    </div>
+                  ) : (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex flex-col py-1"
+                    >
+                      {sortedCategories.map(cat => (
+                        <a 
+                          key={cat.id}
+                          href={`#${cat.id}`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onCategoryClick(cat.id);
+                            setIsCategoriesOpen(false);
+                          }}
+                          className="px-6 py-2.5 hover:bg-gray-50 transition-colors text-gray-700 flex items-center gap-3 text-sm"
+                        >
+                          <span className="text-gray-400 scale-75">{cat.icon}</span>
+                          <span className="font-medium">{cat.title}</span>
+                        </a>
+                      ))}
+                    </motion.div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          <a href="#mais-vendidos" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+            <TrendingUp size={14} /> Mais Vendidos
+          </a>
+          <a href="#eletronicos" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+            <Smartphone size={14} /> Eletrônicos
+          </a>
+          <a href="#casa-e-cozinha" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+            <Utensils size={14} /> Casa e Cozinha
+          </a>
+          <a href="#moda" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+            <Shirt size={14} /> Moda
+          </a>
+          <button onClick={onViewHighDiscounts} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+            <Tag size={14} /> Ofertas
+          </button>
+          <div className="ml-auto flex items-center gap-6">
+            <button onClick={() => onOpenModal('favorites')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
+              <Heart size={14} /> Favoritos
+            </button>
+            <button onClick={() => onOpenModal('about')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
+              <Info size={14} /> Sobre
+            </button>
+            <button onClick={() => onOpenModal('contact')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
+              <Headset size={14} /> Contato
+            </button>
+          </div>
+        </nav>
       </div>
 
-      {/* Bottom Row: Navigation */}
-      <nav className="flex items-center gap-6 text-[13px] font-medium text-gray-700 h-[32px] mt-1">
-        <button onClick={onHomeClick} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors h-full">
-          <Home size={14} /> <span translate="no">Página Inicial</span>
-        </button>
-
-        {/* Categories Dropdown */}
-        <div 
-          className="relative h-full flex items-center"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={() => setIsCategoriesOpen(false)}
-        >
-          <button className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors h-full">
-            Categorias <ChevronDown size={14} className={`transition-transform duration-200 ${isCategoriesOpen ? 'rotate-180' : ''}`} />
-          </button>
-          <AnimatePresence>
-            {isCategoriesOpen && (
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                className="absolute top-full left-0 bg-white border border-gray-100 shadow-xl rounded-md py-2 min-w-[220px] z-[60]"
-              >
-                {isMenuLoading ? (
-                  <div className="py-8 flex flex-col items-center justify-center gap-2">
-                    <motion.div 
-                      animate={{ rotate: 360 }}
-                      transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
-                      className="w-6 h-6 border-2 border-ml-blue border-t-transparent rounded-full"
-                    />
-                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Carregando...</span>
-                  </div>
-                ) : (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex flex-col py-1"
+      {/* Mobile Menu Drawer */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <div className="fixed inset-0 z-[100] lg:hidden">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="absolute top-0 left-0 bottom-0 w-[85%] max-w-[320px] bg-white shadow-2xl flex flex-col"
+            >
+              <div className="bg-[#FFE600] p-6 flex flex-col gap-4">
+                <div className="flex items-center justify-between">
+                  <img src={LOGO_URL} alt="Logo" className="h-8 w-auto" />
+                  <button 
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="p-2 bg-black/5 rounded-full"
                   >
-                    {sortedCategories.map(cat => (
-                      <a 
-                        key={cat.id}
-                        href={`#${cat.id}`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          onCategoryClick(cat.id);
-                          setIsCategoriesOpen(false);
+                    <X size={20} className="text-gray-800" />
+                  </button>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center">
+                    <Heart size={20} className="text-gray-600" />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900 leading-none">Bem-vindo</h4>
+                    <p className="text-[10px] text-gray-600 mt-1 uppercase font-black">Confira nossas ofertas!</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex-grow overflow-y-auto py-2 no-scrollbar">
+                <div className="px-6 py-4">
+                  <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Navegação</h5>
+                  <div className="space-y-1">
+                    {navLinks.map((link, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => {
+                          if (link.onClick) link.onClick();
+                          else if (link.href) window.location.hash = link.href;
+                          setIsMobileMenuOpen(false);
                         }}
-                        className="px-6 py-2.5 hover:bg-gray-50 transition-colors text-gray-700 flex items-center gap-3 text-sm"
+                        className={`w-full flex items-center gap-4 py-3 text-sm font-medium transition-colors ${link.highlight ? 'text-red-500 font-bold' : 'text-gray-700 active:text-ml-blue'}`}
+                      >
+                        <span className={link.highlight ? 'text-red-500' : 'text-gray-400'}>{link.icon}</span>
+                        {link.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="px-6 py-4 border-t border-gray-100">
+                  <h5 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Categorias</h5>
+                  <div className="grid grid-cols-1 gap-1">
+                    {sortedCategories.map(cat => (
+                      <button
+                        key={cat.id}
+                        onClick={() => {
+                          onCategoryClick(cat.id);
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="w-full flex items-center gap-4 py-3 text-sm font-medium text-gray-700 active:text-ml-blue transition-colors"
                       >
                         <span className="text-gray-400 scale-75">{cat.icon}</span>
-                        <span className="font-medium">{cat.title}</span>
-                      </a>
+                        {cat.title}
+                      </button>
                     ))}
-                  </motion.div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-        <a href="#mais-vendidos" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
-          <TrendingUp size={14} /> Mais Vendidos
-        </a>
-        <a href="#eletronicos" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
-          <Smartphone size={14} /> Eletrônicos
-        </a>
-        <a href="#casa-e-cozinha" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
-          <Utensils size={14} /> Casa e Cozinha
-        </a>
-        <a href="#moda" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
-          <Shirt size={14} /> Moda
-        </a>
-        <button onClick={onViewHighDiscounts} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
-          <Tag size={14} /> Ofertas
-        </button>
-        <div className="ml-auto flex items-center gap-6">
-          <button onClick={() => onOpenModal('favorites')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
-            <Heart size={14} /> Favoritos
-          </button>
-          <button onClick={() => onOpenModal('about')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
-            <Info size={14} /> Sobre
-          </button>
-          <button onClick={() => onOpenModal('contact')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
-            <Headset size={14} /> Contato
-          </button>
-        </div>
-      </nav>
-    </div>
-  </header>
+                  </div>
+                </div>
+
+                <div className="px-6 py-6 border-t border-gray-100 space-y-4">
+                  <button onClick={() => { onOpenModal('about'); setIsMobileMenuOpen(false); }} className="flex items-center gap-3 text-xs font-bold text-gray-500 hover:text-gray-800">
+                    <Info size={16} /> Sobre o Mercado Compras
+                  </button>
+                  <button onClick={() => { onOpenModal('contact'); setIsMobileMenuOpen(false); }} className="flex items-center gap-3 text-xs font-bold text-gray-500 hover:text-gray-800">
+                    <Headset size={16} /> Fale Conosco
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </header>
   );
 };
 
@@ -1038,8 +1170,8 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
   };
 
   return (
-    <section className="bg-white mb-12 overflow-hidden relative group rounded-3xl shadow-md border border-gray-100">
-      <div className="max-w-[1231px] h-[360px] mx-auto relative flex items-center bg-white rounded-3xl overflow-hidden">
+    <section className="bg-white mb-6 lg:mb-12 overflow-hidden relative group rounded-xl lg:rounded-3xl shadow-md border border-gray-100">
+      <div className="max-w-[1231px] h-[200px] sm:h-[280px] lg:h-[360px] mx-auto relative flex items-center bg-white rounded-xl lg:rounded-3xl overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -1047,7 +1179,7 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="w-full h-full rounded-3xl overflow-hidden"
+            className="w-full h-full rounded-xl lg:rounded-3xl overflow-hidden"
           >
             {product.isFullImage ? (
               <a 
@@ -1060,7 +1192,7 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
                 <img 
                   src={product.imageUrl} 
                   alt="Promoção" 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-700 lg:group-hover:scale-105"
                   referrerPolicy="no-referrer"
                 />
               </a>
@@ -1185,11 +1317,10 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
     <motion.div 
       whileHover={{ scale: 1.025, y: -5 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col h-[500px] relative group hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+      className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col min-h-[420px] sm:h-[500px] relative group hover:shadow-xl transition-shadow duration-300 overflow-hidden"
     >
       {/* Product Image Area */}
-        <div 
-          className="h-[200px] w-full bg-white p-4 flex items-center justify-center relative overflow-hidden border-b border-gray-50 cursor-zoom-in"
+      <div className="h-[140px] sm:h-[200px] w-full bg-white p-4 flex items-center justify-center relative overflow-hidden border-b border-gray-50 cursor-zoom-in"
           onClick={() => onExpand(product)}
         >
           <div className="absolute top-3 right-3 z-10 flex flex-col gap-2" onClick={e => e.stopPropagation()}>
@@ -1373,7 +1504,7 @@ const Section = ({ id, title, icon, products, favorites, onToggleFavorite, onExp
         </button>
       )}
     </div>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
       {products.slice(0, onViewAll ? 8 : undefined).map(product => (
         <ProductCard 
           key={product.id} 
@@ -1391,15 +1522,18 @@ const Footer = ({ onOpenModal }: { onOpenModal: (type: string) => void }) => (
   <footer className="bg-[#1E224F] text-[#A5A9CC] pt-12 pb-8 border-t border-[#343D7B]">
     <div className="max-w-7xl mx-auto px-6">
       {/* Bottom Footer Row */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="text-center md:text-left space-y-2">
-          <div className="text-[10px] font-bold text-white/40 uppercase tracking-tighter">
-            © 2026 Mercado Compras — Todos os direitos reservados
+        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="text-center md:text-left space-y-4">
+            <div className="flex flex-col items-center md:items-start gap-4">
+              <img src={LOGO_URL} alt="Logo" className="h-8 w-auto brightness-0 invert opacity-50" />
+              <div className="text-[10px] font-bold text-white/40 uppercase tracking-tighter">
+                © 2026 Mercado Compras — Todos os direitos reservados
+              </div>
+            </div>
+            <p className="text-[10px] max-w-md opacity-40 font-medium leading-relaxed">
+              O Mercado Compras é um participante do Programa de Afiliados do Mercado Livre, um programa de publicidade de afiliados projetado para fornecer um meio para sites ganharem taxas de publicidade por meio de links.
+            </p>
           </div>
-          <p className="text-[9px] max-w-md opacity-50 font-medium">
-            Este site contém links de afiliados. Ao comprar através de nossos links, podemos receber uma comissão.
-          </p>
-        </div>
 
         {/* Footer Links */}
         <div className="flex flex-wrap justify-center md:justify-end items-center gap-x-6 gap-y-4 text-[11px] font-medium">
@@ -1813,7 +1947,7 @@ export default function App() {
         }}
         onHomeClick={() => setViewAllCategory(null)}
       />
-      <div className="max-w-7xl mx-auto px-6 py-6 font-sans">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6 py-4 lg:py-6 font-sans">
         <main className="w-full">
           {!searchTerm && !viewAllCategory && (
             <>
