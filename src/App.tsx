@@ -286,6 +286,19 @@ const CATEGORIES = [
     icon: <Utensils size={32} />,
     products: [
       { 
+        id: 205, 
+        name: "Protetor De Colchão Impermeável Solteiro Matelado Resistente A Líquidos Antiácaro Antialérgico Branco", 
+        originalPrice: "R$ 69,98",
+        price: "R$ 34,98", 
+        discount: "50% OFF",
+        rating: "4.4",
+        reviewsCount: "20885",
+        isBestSeller: true,
+        subTitle: "1º em Protetores para Colchões",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_727727-MLA99975530551_112025-F.webp", 
+        link: "https://meli.la/2ehbPPt" 
+      },
+      { 
         id: 200, 
         name: "Garrafa Térmica Água Squeeze Inox Academia Quente e Frio", 
         originalPrice: "R$ 59,90",
@@ -493,6 +506,19 @@ const CATEGORIES = [
 ];
 
 const BEST_SELLERS = [
+  { 
+    id: 205, 
+    name: "Protetor De Colchão Impermeável Solteiro Matelado Resistente A Líquidos Antiácaro Antialérgico Branco", 
+    originalPrice: "R$ 69,98",
+    price: "R$ 34,98", 
+    discount: "50% OFF",
+    rating: "4.4", 
+    reviewsCount: "20885", 
+    isBestSeller: true,
+    subTitle: "1º em Protetores para Colchões",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_727727-MLA99975530551_112025-F.webp", 
+    link: "https://meli.la/2ehbPPt", 
+  },
   { 
     id: 204, 
     name: "Conjunto Fitness Virginia Top Shorts Meia Coxa Cintura Alta", 
