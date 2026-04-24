@@ -1347,7 +1347,7 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
     <motion.div 
       whileHover={{ scale: 1.025, y: -5 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col min-h-[460px] sm:min-h-[500px] relative group hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+      className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col min-h-[400px] sm:min-h-[500px] relative group hover:shadow-xl transition-shadow duration-300 overflow-hidden"
     >
       {/* Product Image Area */}
       <div className="h-[140px] sm:h-[200px] w-full bg-white p-4 flex items-center justify-center relative overflow-hidden border-b border-gray-50 cursor-zoom-in"
@@ -1472,7 +1472,7 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
         )}
 
         {/* Price Area */}
-        <div className="mt-auto">
+        <div className="mb-2">
           {product.originalPrice && (
             <p className="text-[12px] text-gray-400 line-through leading-none mb-0.5">{product.originalPrice}</p>
           )}
@@ -1496,8 +1496,10 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
           ) : (
             <p className="text-[12px] text-gray-600 mb-4 min-h-[1.25rem]">Parcelamento disponível</p>
           )}
+        </div>
           
-          {/* Action Button */}
+        {/* Action Button */}
+        <div className="mt-auto">
           <a 
             href={product.link}
             target="_blank"
