@@ -286,6 +286,19 @@ const CATEGORIES = [
     icon: <Utensils size={32} />,
     products: [
       { 
+        id: 206, 
+        name: "Varal De Chão Grande De Roupas 3 Andares Dobrável Cor Azul Kontuz 170 cm", 
+        originalPrice: "R$ 199,90",
+        price: "R$ 139,90", 
+        discount: "30% OFF",
+        rating: "4.8",
+        reviewsCount: "1542",
+        isBestSeller: true,
+        subTitle: "1º em Varais de Chão",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_712866-MLA109482654866_042026-F.webp", 
+        link: "https://meli.la/2BVqijb" 
+      },
+      { 
         id: 205, 
         name: "Protetor De Colchão Impermeável Solteiro Matelado Resistente A Líquidos Antiácaro Antialérgico Branco", 
         originalPrice: "R$ 69,98",
@@ -506,6 +519,19 @@ const CATEGORIES = [
 ];
 
 const BEST_SELLERS = [
+  { 
+    id: 206, 
+    name: "Varal De Chão Grande De Roupas 3 Andares Dobrável Cor Azul Kontuz 170 cm", 
+    originalPrice: "R$ 199,90",
+    price: "R$ 139,90", 
+    discount: "30% OFF",
+    rating: "4.8", 
+    reviewsCount: "1542", 
+    isBestSeller: true,
+    subTitle: "1º em Varais de Chão",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_712866-MLA109482654866_042026-F.webp", 
+    link: "https://meli.la/2BVqijb", 
+  },
   { 
     id: 205, 
     name: "Protetor De Colchão Impermeável Solteiro Matelado Resistente A Líquidos Antiácaro Antialérgico Branco", 
