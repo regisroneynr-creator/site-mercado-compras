@@ -286,6 +286,19 @@ const CATEGORIES = [
     icon: <Utensils size={32} />,
     products: [
       { 
+        id: 200, 
+        name: "Garrafa Térmica Água Squeeze Inox Academia Quente e Frio", 
+        originalPrice: "R$ 59,90",
+        price: "R$ 36,54", 
+        discount: "38% OFF",
+        rating: "4.8", 
+        reviewsCount: "46647", 
+        isBestSeller: true,
+        subTitle: "1º em Garrafas de Café",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_963485-MLB94579785063_102025-F-800mlgarrafa-termica-agua-squeeze-inox-academiaquente-e-frio.webp", 
+        link: "https://meli.la/1yL2vsb" 
+      },
+      { 
         id: 8, 
         name: "Kit 24 Talheres Luxo Premium Faqueiro Dourado Com Maleta", 
         originalPrice: "R$ 120,89",
@@ -405,6 +418,19 @@ const CATEGORIES = [
 ];
 
 const BEST_SELLERS = [
+  { 
+    id: 200, 
+    name: "Garrafa Térmica Água Squeeze Inox Academia Quente e Frio", 
+    originalPrice: "R$ 59,90",
+    price: "R$ 36,54", 
+    discount: "38% OFF",
+    rating: "4.8", 
+    reviewsCount: "46647", 
+    isBestSeller: true,
+    subTitle: "1º em Garrafas de Café",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_963485-MLB94579785063_102025-F-800mlgarrafa-termica-agua-squeeze-inox-academiaquente-e-frio.webp", 
+    link: "https://meli.la/1yL2vsb", 
+  },
   { 
     id: 114, 
     name: "Kit 4 Bermuda Shorts Tactel Sandrini Elastano Academia Praia", 
@@ -605,6 +631,35 @@ const BEST_SELLERS = [
     isBestSeller: true,
     subTitle: "2º em Compressores de Ar",
     installments: "3x R$ 20,07 sem juros"
+  },
+];
+
+const DAILY_DEALS = [
+  { 
+    id: 200, 
+    name: "Garrafa Térmica Água Squeeze Inox Academia Quente e Frio", 
+    originalPrice: "R$ 59,90",
+    price: "R$ 36,54", 
+    discount: "38% OFF",
+    rating: "4.8", 
+    reviewsCount: "46647", 
+    isBestSeller: true,
+    subTitle: "1º em Garrafas de Café",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_963485-MLB94579785063_102025-F-800mlgarrafa-termica-agua-squeeze-inox-academiaquente-e-frio.webp", 
+    link: "https://meli.la/1yL2vsb", 
+  },
+  { 
+    id: 101, 
+    name: "Copo Térmico Gigante 1,2l Inox Com Tampa E Inox Canudo", 
+    originalPrice: "R$ 99,98",
+    price: "R$ 48,98", 
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_952523-MLB109996174757_042026-F-copo-termico-gigante-12l-inox-com-tampa-e-inox-canudo.webp", 
+    link: "https://meli.la/1GBQdcv", 
+    discount: "51% OFF", 
+    rating: "4.9", 
+    reviewsCount: "5238", 
+    isBestSeller: true,
+    subTitle: "2º em Canecas e Copos Térmicos"
   },
 ];
 
@@ -1495,6 +1550,7 @@ export default function App() {
   // Aggregate all products for global views - ensure absolute uniqueness by normalized Name
   const uniqueAllProducts = (() => {
     const rawList = [
+      ...DAILY_DEALS.map(p => ({ ...p, categoryId: (p as any).categoryId || 'oferta-do-dia' })),
       ...BEST_SELLERS.map(p => ({ ...p, categoryId: (p as any).categoryId || 'mais-vendidos' })),
       ...CATEGORIES.flatMap(cat => cat.products.map(p => ({ ...p, categoryId: cat.id })))
     ];
@@ -1597,7 +1653,7 @@ export default function App() {
               
               {filterType === 'discount' ? (
                 <Section 
-                  title="OFERTAS IMPERDÍVEIS - ATÉ 70% OFF" 
+                  title="OFERTAS" 
                   icon={<Flame size={22} />} 
                   products={viewAllContent} 
                   favorites={favorites}
