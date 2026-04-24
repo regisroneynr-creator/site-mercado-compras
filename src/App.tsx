@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, ChevronRight, TrendingUp, Facebook, Instagram, Twitter, Mail, X, ChevronLeft, ShoppingCart, Star, Smartphone, Home, Shirt, Heart, Info, Headset, Utensils, Flame, Zap, ShoppingBag, Tag, Share2, Check, ZoomIn, ChevronDown } from 'lucide-react';
+import { Search, Menu, ChevronRight, TrendingUp, Facebook, Instagram, Twitter, Mail, X, ChevronLeft, ShoppingCart, Star, Smartphone, Home, Shirt, Heart, Info, Headset, Utensils, Flame, Zap, ShoppingBag, Tag, Share2, Check, ZoomIn, ChevronDown, Gamepad2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useForm, ValidationError } from '@formspree/react';
 
@@ -353,6 +353,19 @@ const CATEGORIES = [
         image: "https://http2.mlstatic.com/D_NQ_NP_2X_885228-MLA105354697197_012026-F.webp", 
         link: "https://meli.la/1njxMxH" 
       },
+      { 
+        id: 101, 
+        name: "Copo Térmico Gigante 1,2l Inox Com Tampa E Inox Canudo", 
+        originalPrice: "R$ 99,98",
+        price: "R$ 48,98", 
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_952523-MLB109996174757_042026-F-copo-termico-gigante-12l-inox-com-tampa-e-inox-canudo.webp", 
+        link: "https://meli.la/1GBQdcv", 
+        discount: "51% OFF", 
+        rating: "4.9", 
+        reviewsCount: "5238", 
+        isBestSeller: true,
+        subTitle: "2º em Canecas e Copos Térmicos"
+      },
     ]
   },
   {
@@ -360,6 +373,47 @@ const CATEGORIES = [
     title: "MODA",
     icon: <Shirt size={32} />,
     products: [
+      { 
+        id: 204, 
+        name: "Conjunto Fitness Virginia Top Shorts Meia Coxa Cintura Alta", 
+        originalPrice: "R$ 69",
+        price: "R$ 32,92", 
+        discount: "52% OFF",
+        installments: "no Pix",
+        rating: "4.4",
+        reviewsCount: "27008",
+        isBestSeller: true,
+        subTitle: "1º em Conjuntos",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_718401-MLB80817900517_112024-F-conjunto-fitness-virginia-top-shorts-meia-coxa-cintura-alta.webp", 
+        link: "https://meli.la/1Fq5vvu" 
+      },
+      { 
+        id: 203, 
+        name: "Calça Tactel Jogger Com Elastano Active Wear Void Verão", 
+        originalPrice: "R$ 68,15",
+        price: "R$ 37,66", 
+        discount: "44% OFF",
+        rating: "4.6",
+        reviewsCount: "22914",
+        isBestSeller: true,
+        subTitle: "1º em Calças e Joggings",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_880618-MLB95661478919_102025-F-calca-tactel-jogger-com-elastano-active-wear-void-vero.webp", 
+        link: "https://meli.la/1ckRBVZ" 
+      },
+      { 
+        id: 201, 
+        name: "Kit 4 Camiseta Dry-fit Sandrini Masculina Academia Caminhada", 
+        originalPrice: "R$ 135,41",
+        price: "R$ 59,99", 
+        discount: "55% OFF",
+        installments: "12x R$ 5,91",
+        rating: "4.6",
+        reviewsCount: "24668",
+        isBestSeller: true,
+        subTitle: "1º em Camisetas e Regatas",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_626928-MLB82004918446_022025-F-kit-4-camiseta-dry-fit-sandrini-masculina-academia-caminhada.webp", 
+        link: "https://meli.la/2dy8hRS" 
+      },
       { 
         id: 16, 
         name: "Kit 4 Bermuda Shorts Tactel Sandrini Elastano Academia Praia", 
@@ -414,10 +468,86 @@ const CATEGORIES = [
         installments: "no Pix ou R$ 66,90"
       },
     ]
+  },
+  {
+    id: "brinquedos",
+    title: "BRINQUEDOS",
+    icon: <Gamepad2 size={32} />,
+    products: [
+      { 
+        id: 202, 
+        name: "Bebê Reborn Boneca Menina Silicone Girafinha Pode Dar Banho", 
+        originalPrice: "R$ 359,80",
+        price: "R$ 140,89", 
+        discount: "60% OFF",
+        installments: "no Pix ou R$ 148,31 em 4x R$ 37,08 sem juros",
+        rating: "4.7",
+        reviewsCount: "6793",
+        isBestSeller: true,
+        subTitle: "1º em Bonecas, Bonecos e Bebês",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_862339-MLB99399524881_112025-F.webp", 
+        link: "https://meli.la/1jb35xq" 
+      }
+    ]
   }
 ];
 
 const BEST_SELLERS = [
+  { 
+    id: 204, 
+    name: "Conjunto Fitness Virginia Top Shorts Meia Coxa Cintura Alta", 
+    originalPrice: "R$ 69",
+    price: "R$ 32,92", 
+    discount: "52% OFF",
+    rating: "4.4", 
+    reviewsCount: "27008", 
+    isBestSeller: true,
+    subTitle: "1º em Conjuntos",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_718401-MLB80817900517_112024-F-conjunto-fitness-virginia-top-shorts-meia-coxa-cintura-alta.webp", 
+    link: "https://meli.la/1Fq5vvu", 
+    installments: "no Pix"
+  },
+  { 
+    id: 203, 
+    name: "Calça Tactel Jogger Com Elastano Active Wear Void Verão", 
+    originalPrice: "R$ 68,15",
+    price: "R$ 37,66", 
+    discount: "44% OFF",
+    rating: "4.6", 
+    reviewsCount: "22914", 
+    isBestSeller: true,
+    subTitle: "1º em Calças e Joggings",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_880618-MLB95661478919_102025-F-calca-tactel-jogger-com-elastano-active-wear-void-vero.webp", 
+    link: "https://meli.la/1ckRBVZ", 
+  },
+  { 
+    id: 202, 
+    name: "Bebê Reborn Boneca Menina Silicone Girafinha Pode Dar Banho", 
+    originalPrice: "R$ 359,80",
+    price: "R$ 140,89", 
+    discount: "60% OFF",
+    rating: "4.7", 
+    reviewsCount: "6793", 
+    isBestSeller: true,
+    subTitle: "1º em Bonecas, Bonecos e Bebês",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_862339-MLB99399524881_112025-F.webp", 
+    link: "https://meli.la/1jb35xq", 
+    installments: "no Pix ou R$ 148,31 em 4x R$ 37,08 sem juros"
+  },
+  { 
+    id: 201, 
+    name: "Kit 4 Camiseta Dry-fit Sandrini Masculina Academia Caminhada", 
+    originalPrice: "R$ 135,41",
+    price: "R$ 59,99", 
+    discount: "55% OFF",
+    rating: "4.6", 
+    reviewsCount: "24668", 
+    isBestSeller: true,
+    subTitle: "1º em Camisetas e Regatas",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_626928-MLB82004918446_022025-F-kit-4-camiseta-dry-fit-sandrini-masculina-academia-caminhada.webp", 
+    link: "https://meli.la/2dy8hRS", 
+    installments: "12x R$ 5,91"
+  },
   { 
     id: 200, 
     name: "Garrafa Térmica Água Squeeze Inox Academia Quente e Frio", 
@@ -631,35 +761,6 @@ const BEST_SELLERS = [
     isBestSeller: true,
     subTitle: "2º em Compressores de Ar",
     installments: "3x R$ 20,07 sem juros"
-  },
-];
-
-const DAILY_DEALS = [
-  { 
-    id: 200, 
-    name: "Garrafa Térmica Água Squeeze Inox Academia Quente e Frio", 
-    originalPrice: "R$ 59,90",
-    price: "R$ 36,54", 
-    discount: "38% OFF",
-    rating: "4.8", 
-    reviewsCount: "46647", 
-    isBestSeller: true,
-    subTitle: "1º em Garrafas de Café",
-    image: "https://http2.mlstatic.com/D_NQ_NP_2X_963485-MLB94579785063_102025-F-800mlgarrafa-termica-agua-squeeze-inox-academiaquente-e-frio.webp", 
-    link: "https://meli.la/1yL2vsb", 
-  },
-  { 
-    id: 101, 
-    name: "Copo Térmico Gigante 1,2l Inox Com Tampa E Inox Canudo", 
-    originalPrice: "R$ 99,98",
-    price: "R$ 48,98", 
-    image: "https://http2.mlstatic.com/D_NQ_NP_2X_952523-MLB109996174757_042026-F-copo-termico-gigante-12l-inox-com-tampa-e-inox-canudo.webp", 
-    link: "https://meli.la/1GBQdcv", 
-    discount: "51% OFF", 
-    rating: "4.9", 
-    reviewsCount: "5238", 
-    isBestSeller: true,
-    subTitle: "2º em Canecas e Copos Térmicos"
   },
 ];
 
@@ -1550,7 +1651,6 @@ export default function App() {
   // Aggregate all products for global views - ensure absolute uniqueness by normalized Name
   const uniqueAllProducts = (() => {
     const rawList = [
-      ...DAILY_DEALS.map(p => ({ ...p, categoryId: (p as any).categoryId || 'oferta-do-dia' })),
       ...BEST_SELLERS.map(p => ({ ...p, categoryId: (p as any).categoryId || 'mais-vendidos' })),
       ...CATEGORIES.flatMap(cat => cat.products.map(p => ({ ...p, categoryId: cat.id })))
     ];
@@ -1587,7 +1687,7 @@ export default function App() {
   const filteredCategories = CATEGORIES.map(cat => ({
     ...cat,
     products: filterProducts(cat.products)
-  })).filter(cat => cat.products.length > 0);
+  })).filter(cat => cat.products.length > 0 && cat.id !== 'brinquedos');
 
   const viewAllContent = getFilteredViewAll();
   const isViewingDeep = viewAllCategory !== null || !!searchTerm;
