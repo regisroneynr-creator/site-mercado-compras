@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, ChevronRight, TrendingUp, Facebook, Instagram, Twitter, Mail, X, ChevronLeft, ShoppingCart, Star, Smartphone, Home, Shirt, Heart, Info, Headset, Utensils, Flame, Zap, ShoppingBag, Tag, Share2, Check, ZoomIn } from 'lucide-react';
+import { Search, Menu, ChevronRight, TrendingUp, Facebook, Instagram, Twitter, Mail, X, ChevronLeft, ShoppingCart, Star, Smartphone, Home, Shirt, Heart, Info, Headset, Utensils, Flame, Zap, ShoppingBag, Tag, Share2, Check, ZoomIn, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useForm, ValidationError } from '@formspree/react';
 
@@ -223,7 +223,7 @@ const CATEGORIES = [
   {
     id: "eletronicos",
     title: "ELETRÔNICOS",
-    icon: <Smartphone size={22} />,
+    icon: <Smartphone size={32} />,
     products: [
       { 
         id: 4, 
@@ -283,7 +283,7 @@ const CATEGORIES = [
   {
     id: "casa-e-cozinha",
     title: "CASA E COZINHA",
-    icon: <Home size={22} />,
+    icon: <Utensils size={32} />,
     products: [
       { 
         id: 8, 
@@ -345,7 +345,7 @@ const CATEGORIES = [
   {
     id: "moda",
     title: "MODA",
-    icon: <Shirt size={22} />,
+    icon: <Shirt size={32} />,
     products: [
       { 
         id: 16, 
@@ -616,27 +616,43 @@ const parseDiscount = (discountStr: string): number => {
 
 // --- COMPONENTS ---
 
-const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHighDiscounts }: { 
+const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHighDiscounts, onCategoryClick, onHomeClick }: { 
   onOpenModal: (type: string) => void; 
   searchTerm: string; 
   onSearchChange: (val: string) => void;
   onViewAll: () => void;
   onViewHighDiscounts: () => void;
-}) => (
-  <header className="bg-[#FFE600] h-[99px] px-6 sticky top-0 z-50 flex items-center">
+  onCategoryClick: (id: string) => void;
+  onHomeClick: () => void;
+}) => {
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [isMenuLoading, setIsMenuLoading] = useState(false);
+  const sortedCategories = [...CATEGORIES].sort((a, b) => a.title.localeCompare(b.title));
+
+  const handleMouseEnter = () => {
+    setIsCategoriesOpen(true);
+    setIsMenuLoading(true);
+    setTimeout(() => setIsMenuLoading(false), 500);
+  };
+
+  return (
+    <header className="bg-[#FFE600] h-[99px] px-6 sticky top-0 z-50 flex items-center">
     <div className="max-w-7xl mx-auto w-full flex flex-col justify-center h-full">
       {/* Top Row: Logo + Search + Ad */}
       <div className="flex items-center gap-8 h-[52px]">
         {/* Logo */}
         <div className="flex-shrink-0">
-          <a href="#" className="block hover:opacity-80 transition-opacity">
+          <button onClick={onHomeClick} className="flex items-center gap-3 hover:opacity-80 transition-opacity group">
+            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-ml-blue shadow-sm border border-gray-100 group-hover:scale-110 transition-transform">
+              <Shirt size={22} />
+            </div>
             <img 
               src={LOGO_URL} 
               alt="Mercado Compras" 
               className="h-10 w-auto object-contain"
               referrerPolicy="no-referrer"
             />
-          </a>
+          </button>
         </div>
 
         {/* Search Bar Column */}
@@ -646,12 +662,9 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
               type="text" 
               value={searchTerm}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full h-9 px-4 pr-12 rounded bg-white border-0 shadow-[0_1px_2px_0_rgba(0,0,0,0.2)] focus:outline-none placeholder-gray-400 text-sm"
+              className="w-full h-9 px-4 rounded bg-white border-0 shadow-[0_1px_2px_0_rgba(0,0,0,0.2)] focus:outline-none placeholder-gray-400 text-sm"
               placeholder="Buscar produtos, marcas e muito mais..."
             />
-            <div className="absolute right-0 top-0 h-9 w-11 flex items-center justify-center text-gray-500 bg-white rounded-r border-l border-gray-100">
-              <Search size={18} className="stroke-[1.5px]" />
-            </div>
           </div>
 
           {/* Animated GIF Banner */}
@@ -674,9 +687,64 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
 
       {/* Bottom Row: Navigation */}
       <nav className="flex items-center gap-6 text-[13px] font-medium text-gray-700 h-[32px] mt-1">
-        <a href="#" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+        <button onClick={onHomeClick} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors h-full">
           <Home size={14} /> <span translate="no">Página Inicial</span>
-        </a>
+        </button>
+
+        {/* Categories Dropdown */}
+        <div 
+          className="relative h-full flex items-center"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={() => setIsCategoriesOpen(false)}
+        >
+          <button className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors h-full">
+            Categorias <ChevronDown size={14} className={`transition-transform duration-200 ${isCategoriesOpen ? 'rotate-180' : ''}`} />
+          </button>
+          <AnimatePresence>
+            {isCategoriesOpen && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                className="absolute top-full left-0 bg-white border border-gray-100 shadow-xl rounded-md py-2 min-w-[220px] z-[60]"
+              >
+                {isMenuLoading ? (
+                  <div className="py-8 flex flex-col items-center justify-center gap-2">
+                    <motion.div 
+                      animate={{ rotate: 360 }}
+                      transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+                      className="w-6 h-6 border-2 border-ml-blue border-t-transparent rounded-full"
+                    />
+                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Carregando...</span>
+                  </div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex flex-col py-1"
+                  >
+                    {sortedCategories.map(cat => (
+                      <a 
+                        key={cat.id}
+                        href={`#${cat.id}`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onCategoryClick(cat.id);
+                          setIsCategoriesOpen(false);
+                        }}
+                        className="px-6 py-2.5 hover:bg-gray-50 transition-colors text-gray-700 flex items-center gap-3 text-sm"
+                      >
+                        <span className="text-gray-400 scale-75">{cat.icon}</span>
+                        <span className="font-medium">{cat.title}</span>
+                      </a>
+                    ))}
+                  </motion.div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
         <a href="#mais-vendidos" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
           <TrendingUp size={14} /> Mais Vendidos
         </a>
@@ -713,7 +781,8 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
       </nav>
     </div>
   </header>
-);
+  );
+};
 
 const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => void }) => {
   const [current, setCurrent] = useState(0);
@@ -879,7 +948,11 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col h-[500px] relative group hover:shadow-xl transition-all duration-500 overflow-hidden">
+    <motion.div 
+      whileHover={{ scale: 1.025, y: -5 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col h-[500px] relative group hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+    >
       {/* Product Image Area */}
         <div 
           className="h-[200px] w-full bg-white p-4 flex items-center justify-center relative overflow-hidden border-b border-gray-50 cursor-zoom-in"
@@ -913,12 +986,15 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
                   >
                     <button 
                       onClick={() => handleShare('whatsapp')}
-                      className="text-green-500 hover:scale-110 transition-transform"
+                      className="text-green-500 transition-transform"
                       title="WhatsApp"
                     >
-                      <div className="w-8 h-8 flex items-center justify-center rounded-full bg-green-50">
+                      <motion.div 
+                        whileHover={{ scale: 1.2 }}
+                        className="w-8 h-8 flex items-center justify-center rounded-full bg-green-50"
+                      >
                         <Zap size={16} fill="currentColor" />
-                      </div>
+                      </motion.div>
                     </button>
                     <button 
                       onClick={() => handleShare('facebook')}
@@ -1038,6 +1114,58 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
           </a>
         </div>
       </div>
+    </motion.div>
+  );
+};
+
+const CategoryQuickLinks = ({ onCategoryClick }: { onCategoryClick: (id: string) => void }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const sortedCategories = [...CATEGORIES].sort((a, b) => a.title.localeCompare(b.title));
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1200);
+    return () => clearTimeout(timer);
+  }, []);
+  
+  return (
+    <div className="bg-[#F5F5F5] py-12 mb-8 border-y border-gray-200/50 min-h-[300px] flex items-center justify-center">
+      <div className="max-w-7xl mx-auto px-6 w-full">
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center gap-6 py-20">
+            <motion.div 
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+              className="w-16 h-16 rounded-full bg-white shadow-xl flex items-center justify-center text-ml-blue border border-gray-100"
+            >
+              <Shirt size={32} />
+            </motion.div>
+            <p className="text-xs text-gray-400 font-bold uppercase tracking-widest animate-pulse">Preparando ofertas...</p>
+          </div>
+        ) : (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+              {sortedCategories.map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => onCategoryClick(cat.id)}
+                  className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center gap-4 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+                >
+                  <div className="w-16 h-16 rounded-full bg-blue-50 flex items-center justify-center text-ml-blue group-hover:bg-ml-blue group-hover:text-white transition-colors duration-300">
+                    {cat.icon}
+                  </div>
+                  <span className="text-xs font-black text-gray-400 group-hover:text-ml-blue transition-colors tracking-widest uppercase">
+                    {cat.title}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </div>
     </div>
   );
 };
@@ -1045,11 +1173,13 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
 const Section = ({ id, title, icon, products, favorites, onToggleFavorite, onExpand, onViewAll }: { id?: string; title: string; icon?: React.ReactNode; products: any[]; favorites: any[]; onToggleFavorite: (p: any) => void; onExpand: (p: any) => void; onViewAll?: () => void; key?: any }) => (
   <section id={id} className="mb-12 scroll-mt-24">
     <div className="flex items-center justify-between mb-6">
-      <div className="flex items-center gap-2">
-        <div className="text-ml-blue">
-          {icon || <TrendingUp size={22} />}
+      <div 
+        className={`flex items-center gap-2 ${onViewAll ? 'cursor-pointer group' : ''}`}
+        onClick={onViewAll}
+      >
+        <div className={`w-9 h-9 md:w-11 md:h-11 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center text-ml-blue flex-shrink-0 ${onViewAll ? 'group-hover:scale-110 transition-all group-hover:border-ml-blue' : 'transition-all'}`}>
+          {icon ? React.cloneElement(icon as React.ReactElement, { size: 18 }) : <TrendingUp size={18} />}
         </div>
-        <h2 className="text-xl md:text-2xl font-semibold text-gray-800">{title}</h2>
       </div>
       {onViewAll && products.length > 8 && (
         <button 
@@ -1127,6 +1257,18 @@ const Footer = ({ onOpenModal }: { onOpenModal: (type: string) => void }) => (
 );
 
 const ContentModal = ({ isOpen, type, onClose, favorites, onToggleFavorite, onExpand }: { isOpen: boolean; type: string; onClose: () => void; favorites: any[]; onToggleFavorite: (p: any) => void; onExpand: (p: any) => void }) => {
+  const [isPageLoading, setIsPageLoading] = useState(false);
+  
+  useEffect(() => {
+    if (isOpen && type !== 'favorites') {
+      setIsPageLoading(true);
+      const timer = setTimeout(() => setIsPageLoading(false), 800);
+      return () => clearTimeout(timer);
+    } else {
+      setIsPageLoading(false);
+    }
+  }, [isOpen, type]);
+
   const handleExpand = (p: any) => {
     onExpand(p);
     onClose();
@@ -1220,8 +1362,25 @@ const ContentModal = ({ isOpen, type, onClose, favorites, onToggleFavorite, onEx
                 <X size={20} className="text-gray-500" />
               </button>
             </div>
-            <div className="p-6 overflow-y-auto no-scrollbar">
-              {meta.content}
+            <div className="p-6 overflow-y-auto no-scrollbar min-h-[250px]">
+              {isPageLoading ? (
+                <div className="py-16 flex flex-col items-center justify-center gap-4">
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                    className="w-10 h-10 border-4 border-ml-blue border-t-transparent rounded-full"
+                  />
+                  <p className="text-gray-400 font-bold uppercase text-[10px] tracking-widest animate-pulse text-center">Buscando informações...</p>
+                </div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  {meta.content}
+                </motion.div>
+              )}
             </div>
             <div className="p-4 border-t border-gray-100 flex justify-end">
               <button 
@@ -1465,11 +1624,24 @@ export default function App() {
           setFilterType('discount');
           setViewAllCategory('top-discounts');
         }}
+        onCategoryClick={(id) => {
+          setFilterType('category');
+          setViewAllCategory(id);
+        }}
       />
       <div className="max-w-7xl mx-auto px-6 py-6 font-sans">
         <main className="w-full">
           {!searchTerm && !viewAllCategory && (
-            <BannerCarousel onInternalLink={(link) => setViewAllCategory(link)} />
+            <>
+              <BannerCarousel onInternalLink={(link) => setViewAllCategory(link)} />
+              <CategoryQuickLinks 
+                onCategoryClick={(id) => {
+                  setFilterType('category');
+                  setViewAllCategory(id);
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }} 
+              />
+            </>
           )}
           
           {isViewingDeep && (
@@ -1536,7 +1708,6 @@ export default function App() {
           ) : searchTerm ? (
             <div className="mb-12">
               <h2 className="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-                <Search size={24} className="text-ml-blue" />
                 Resultados para "{searchTerm}"
               </h2>
               <Section 
