@@ -1200,7 +1200,7 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
 
   return (
     <section className="bg-white mb-6 lg:mb-12 overflow-hidden relative group rounded-xl lg:rounded-3xl shadow-md border border-gray-100">
-      <div className="max-w-[1231px] h-[200px] sm:h-[280px] lg:h-[360px] mx-auto relative flex items-center bg-white rounded-xl lg:rounded-3xl overflow-hidden">
+      <div className="max-w-[1231px] w-full aspect-[1231/360] mx-auto relative flex items-center bg-white rounded-xl lg:rounded-3xl overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -1221,7 +1221,7 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
                 <img 
                   src={product.imageUrl} 
                   alt="Promoção" 
-                  className="w-full h-full object-cover transition-transform duration-700 lg:group-hover:scale-105"
+                  className="w-full h-full object-contain md:object-cover transition-transform duration-700 lg:group-hover:scale-105"
                   referrerPolicy="no-referrer"
                 />
               </a>
