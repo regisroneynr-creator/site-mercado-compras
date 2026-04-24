@@ -1038,8 +1038,8 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
   };
 
   return (
-    <section className="bg-white mb-12 overflow-hidden relative group rounded-lg shadow-md border border-gray-100">
-      <div className="max-w-[1213px] h-[357px] mx-auto relative flex items-center bg-white">
+    <section className="bg-white mb-12 overflow-hidden relative group rounded-3xl shadow-md border border-gray-100">
+      <div className="max-w-[1231px] h-[360px] mx-auto relative flex items-center bg-white rounded-3xl overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -1047,7 +1047,7 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="w-full h-full"
+            className="w-full h-full rounded-3xl overflow-hidden"
           >
             {product.isFullImage ? (
               <a 
@@ -1060,12 +1060,12 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
                 <img 
                   src={product.imageUrl} 
                   alt="Promoção" 
-                  className="max-w-full max-h-full object-contain"
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   referrerPolicy="no-referrer"
                 />
               </a>
             ) : (
-              <div className="flex flex-col md:flex-row items-center gap-12 w-full h-full px-8 md:px-20 py-4">
+              <div className="flex flex-col md:flex-row items-center gap-12 w-full h-full px-8 md:px-20 py-4 bg-gradient-to-r from-white to-gray-50">
                 <div className="flex-1 space-y-4 md:space-y-6">
                   <div className="flex items-center gap-4">
                     <span className="bg-[#1E2A78] text-white text-[10px] font-bold px-3 py-1.5 rounded-sm uppercase tracking-[0.15em] shadow-sm">
