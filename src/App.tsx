@@ -1277,12 +1277,13 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
         </AnimatePresence>
 
         {/* Carousel Dots */}
-        <div className="absolute bottom-2 sm:bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10 bg-white/60 backdrop-blur-md px-3 py-2 rounded-full border border-white/50 shadow-sm">
+        <div className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-10">
           {CAROUSEL_PRODUCTS.map((_, i) => (
             <button
               key={i}
               onClick={() => setCurrent(i)}
-              className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${current === i ? 'bg-[#3483FA] scale-125' : 'bg-gray-400/40 hover:bg-gray-500'}`}
+              className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 shadow-sm ${current === i ? 'bg-[#3483FA] scale-125' : 'bg-white/60 hover:bg-white/80'}`}
+              aria-label={`Slide ${i + 1}`}
             />
           ))}
         </div>
