@@ -49,7 +49,7 @@ const ContactForm = () => {
             className="w-full px-4 py-2 rounded-md border border-gray-200 focus:ring-2 focus:ring-ml-blue outline-none transition-all" 
             placeholder="Seu nome" 
           />
-          <ValidationError prefix="Name" field="name" errors={state.errors} className="text-red-500 text-xs mt-1" />
+          <ValidationError prefix="Nome" field="name" errors={state.errors} className="text-red-500 text-xs mt-1" />
         </div>
         <div>
           <label htmlFor="email" className="block text-sm font-bold text-gray-700 mb-1">E-mail</label>
@@ -72,7 +72,7 @@ const ContactForm = () => {
             className="w-full px-4 py-2 rounded-md border border-gray-200 focus:ring-2 focus:ring-ml-blue outline-none transition-all h-32" 
             placeholder="Como podemos ajudar?"
           ></textarea>
-          <ValidationError prefix="Message" field="message" errors={state.errors} className="text-red-500 text-xs mt-1" />
+          <ValidationError prefix="Mensagem" field="message" errors={state.errors} className="text-red-500 text-xs mt-1" />
         </div>
         <button 
           type="submit" 
@@ -754,6 +754,9 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
         <a href="#moda" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
           <Shirt size={14} /> Moda
         </a>
+        <button onClick={onViewHighDiscounts} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+          <Tag size={14} /> Ofertas
+        </button>
         <div className="ml-auto flex items-center gap-6">
           <button onClick={() => onOpenModal('favorites')} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors font-medium">
             <Heart size={14} /> Favoritos
