@@ -317,6 +317,20 @@ const CATEGORIES = [
     icon: <Utensils size={32} />,
     products: [
       { 
+        id: 209, 
+        name: "Kit Jogo De Facas Inox Corte Afiado Antiaderente Presente Cor Marrom-escuro", 
+        originalPrice: "R$ 129,99",
+        price: "R$ 74,19", 
+        discount: "42% OFF",
+        installments: "12x R$ 7,31",
+        rating: "4.8",
+        reviewsCount: "14460",
+        isBestSeller: true,
+        subTitle: "1º em Facas e Cutelos",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_876550-MLA99498421420_112025-F.webp", 
+        link: "https://meli.la/2LCWacp" 
+      },
+      { 
         id: 206, 
         name: "Varal De Chão Grande De Roupas 3 Andares Dobrável Cor Azul Kontuz 170 cm", 
         originalPrice: "R$ 119,90",
@@ -431,6 +445,20 @@ const CATEGORIES = [
     title: "MODA",
     icon: <Shirt size={32} />,
     products: [
+      { 
+        id: 210, 
+        name: "Kit 10 Peças De Roupa Conjunto Infantil Menino Dia A Dia", 
+        originalPrice: "R$ 159,99",
+        price: "R$ 69,99", 
+        discount: "56% OFF",
+        installments: "12x R$ 6,89",
+        rating: "4.8",
+        reviewsCount: "15956",
+        isBestSeller: true,
+        subTitle: "1º em Kits de Conjuntos de Roupa",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_732414-MLB86474429728_062025-F-kit-10-pecas-de-roupa-conjunto-infantil-menino-dia-a-dia.webp", 
+        link: "https://meli.la/2rbsRyu" 
+      },
       { 
         id: 204, 
         name: "Conjunto Fitness Virginia Top Shorts Meia Coxa Cintura Alta", 
@@ -579,6 +607,34 @@ const CATEGORIES = [
 ];
 
 const BEST_SELLERS = [
+  { 
+    id: 210, 
+    name: "Kit 10 Peças De Roupa Conjunto Infantil Menino Dia A Dia", 
+    originalPrice: "R$ 159,99",
+    price: "R$ 69,99", 
+    discount: "56% OFF",
+    installments: "12x R$ 6,89",
+    rating: "4.8",
+    reviewsCount: "15956",
+    isBestSeller: true,
+    subTitle: "1º em Kits de Conjuntos de Roupa",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_732414-MLB86474429728_062025-F-kit-10-pecas-de-roupa-conjunto-infantil-menino-dia-a-dia.webp", 
+    link: "https://meli.la/2rbsRyu", 
+  },
+  { 
+    id: 209, 
+    name: "Kit Jogo De Facas Inox Corte Afiado Antiaderente Presente Cor Marrom-escuro", 
+    originalPrice: "R$ 129,99",
+    price: "R$ 74,19", 
+    discount: "42% OFF",
+    installments: "12x R$ 7,31",
+    rating: "4.8",
+    reviewsCount: "14460",
+    isBestSeller: true,
+    subTitle: "1º em Facas e Cutelos",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_876550-MLA99498421420_112025-F.webp", 
+    link: "https://meli.la/2LCWacp", 
+  },
   { 
     id: 208, 
     name: "Patinete Infantil 3 Rodas Dobrável Com Led Conect Brinq BV0011 Brinquedo para Crianças Estável, Seguro E Divertido Colorido", 
