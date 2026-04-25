@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useForm, ValidationError } from '@formspree/react';
 
 // --- GOOGLE ANALYTICS ---
-const gaId = (import.meta as any).env.VITE_GA_MEASUREMENT_ID;
+const gaId = (import.meta as any).env.VITE_GA_MEASUREMENT_ID || 'G-JM30T34J0X';
 
 const useGoogleAnalytics = (id: string | undefined) => {
   useEffect(() => {
