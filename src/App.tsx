@@ -535,7 +535,20 @@ const CATEGORIES = [
     icon: <Gamepad2 size={32} />,
     products: [
       { 
-        id: 207, 
+        id: 208, 
+        name: "Patinete Infantil 3 Rodas Dobrável Com Led Conect Brinq BV0011 Brinquedo para Crianças Estável, Seguro E Divertido Colorido", 
+        originalPrice: "R$ 199,90",
+        price: "R$ 49,90", 
+        discount: "75% OFF",
+        rating: "4.5",
+        reviewsCount: "11127",
+        isBestSeller: true,
+        subTitle: "1º em De Pé",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_647379-MLA100478895706_122025-F.webp", 
+        link: "https://meli.la/2GBeYfH" 
+      },
+      { 
+        id: 237, 
         name: "Patrulha Canina Coleção 6 Carrinhos Fricção Brinquedo", 
         originalPrice: "R$ 64,75",
         price: "R$ 40,15", 
@@ -566,6 +579,19 @@ const CATEGORIES = [
 ];
 
 const BEST_SELLERS = [
+  { 
+    id: 208, 
+    name: "Patinete Infantil 3 Rodas Dobrável Com Led Conect Brinq BV0011 Brinquedo para Crianças Estável, Seguro E Divertido Colorido", 
+    originalPrice: "R$ 199,90",
+    price: "R$ 49,90", 
+    discount: "75% OFF",
+    rating: "4.5", 
+    reviewsCount: "11127", 
+    isBestSeller: true,
+    subTitle: "1º em De Pé",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_647379-MLA100478895706_122025-F.webp", 
+    link: "https://meli.la/2GBeYfH", 
+  },
   { 
     id: 207, 
     name: "Patrulha Canina Coleção 6 Carrinhos Fricção Brinquedo", 
@@ -1347,10 +1373,10 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
     <motion.div 
       whileHover={{ scale: 1.025, y: -5 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col min-h-[400px] sm:min-h-[500px] relative group hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+      className="bg-white rounded-lg shadow-sm border border-gray-100 flex flex-col min-h-[380px] sm:min-h-[480px] relative group hover:shadow-xl transition-shadow duration-300 overflow-hidden"
     >
       {/* Product Image Area */}
-      <div className="h-[140px] sm:h-[200px] w-full bg-white p-4 flex items-center justify-center relative overflow-hidden border-b border-gray-50 cursor-zoom-in"
+      <div className="h-[140px] sm:h-[180px] w-full bg-white p-4 flex items-center justify-center relative overflow-hidden border-b border-gray-50 cursor-zoom-in"
           onClick={() => onExpand(product)}
         >
           <div className="absolute top-3 right-3 z-10 flex flex-col gap-2" onClick={e => e.stopPropagation()}>
@@ -1430,10 +1456,9 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
           />
         </div>
 
-      {/* Content Area */}
-      <div className="flex-1 flex flex-col p-4">
+      <div className="flex-1 flex flex-col p-4 pt-3">
         {/* Badges */}
-        <div className="flex flex-wrap gap-2 mb-3">
+        <div className="flex flex-wrap gap-1.5 mb-2">
           {product.isBestSeller && (
             <span className="bg-[#FF7733] text-white text-[9px] font-black px-2 py-0.5 rounded-sm uppercase">
               MAIS VENDIDO
@@ -1447,54 +1472,54 @@ const ProductCard = ({ product, isFavorite, onToggleFavorite, onExpand }: { prod
         </div>
 
         {/* Product Name */}
-        <h3 className="text-sm text-[#333] leading-tight font-normal mb-2 group-hover:text-blue-600 transition-colors min-h-[40px]">
+        <h3 className="text-[12px] sm:text-sm text-[#333] leading-tight font-normal mb-1.5 group-hover:text-blue-600 transition-colors line-clamp-3 min-h-[36px] sm:min-h-[42px]">
           {product.name}
         </h3>
 
         {/* Subtitle / Ranking */}
         {product.subTitle && (
-          <p className="text-[11px] text-[#00A650] font-medium mb-2 leading-tight">
+          <p className="text-[10px] sm:text-[11px] text-[#00A650] font-medium mb-1.5 leading-tight">
             {product.subTitle}
           </p>
         )}
 
         {/* Rating Area */}
         {product.rating && (
-          <div className="flex items-center gap-1 mb-2">
-            <span className="text-[12px] font-bold text-[#3483FA]">{product.rating}</span>
+          <div className="flex items-center gap-1 mb-1.5">
+            <span className="text-[11px] sm:text-[12px] font-bold text-[#3483FA]">{product.rating}</span>
             <div className="flex items-center text-[#3483FA]">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} size={10} fill={i < Math.floor(parseFloat(product.rating)) ? "currentColor" : "none"} className="stroke-[2px]" />
+                <Star key={i} size={8} fill={i < Math.floor(parseFloat(product.rating)) ? "currentColor" : "none"} className="stroke-[2px] sm:size-[10px]" />
               ))}
             </div>
-            <span className="text-[12px] text-gray-400">({product.reviewsCount})</span>
+            <span className="text-[11px] sm:text-[12px] text-gray-400">({product.reviewsCount})</span>
           </div>
         )}
 
         {/* Price Area */}
         <div className="mb-2">
           {product.originalPrice && (
-            <p className="text-[12px] text-gray-400 line-through leading-none mb-0.5">{product.originalPrice}</p>
+            <p className="text-[11px] sm:text-[12px] text-gray-400 line-through leading-none mb-0.5">{product.originalPrice}</p>
           )}
-          <div className="flex items-start gap-2 mb-1">
+          <div className="flex items-start gap-1 sm:gap-2 mb-1">
             <div className="flex items-start">
-              <span className="text-lg font-medium text-gray-900 mt-1 mr-1">R$</span>
-              <span className="text-3xl font-medium text-gray-900 tracking-tighter">{main}</span>
-              <span className="text-sm font-medium text-gray-900 mt-1.5 ml-0.5">{cents}</span>
+              <span className="text-sm sm:text-lg font-medium text-gray-900 mt-1 mr-0.5 sm:mr-1">R$</span>
+              <span className="text-2xl sm:text-3xl font-medium text-gray-900 tracking-tighter">{main}</span>
+              <span className="text-[10px] sm:text-sm font-medium text-gray-900 mt-1 sm:mt-1.5 ml-0.5">{cents}</span>
             </div>
             {product.discount && (
-              <span className="text-sm text-[#00A650] font-medium ml-1 mt-1.5">
+              <span className="text-xs sm:text-sm text-[#00A650] font-medium ml-0.5 sm:ml-1 mt-1 sm:mt-1.5">
                 {product.discount}
               </span>
             )}
           </div>
           
           {product.installments ? (
-            <p className="text-[12px] text-gray-600 mb-4 min-h-[1.25rem]">
+            <p className="text-[11px] sm:text-[12px] text-gray-600 mb-2 min-h-[1.25rem] leading-tight">
               em <span className="text-[#00A650] font-medium">{product.installments}</span>
             </p>
           ) : (
-            <p className="text-[12px] text-gray-600 mb-4 min-h-[1.25rem]">Parcelamento disponível</p>
+            <p className="text-[11px] sm:text-[12px] text-gray-600 mb-2 min-h-[1.25rem]">Parcelamento disponível</p>
           )}
         </div>
           
