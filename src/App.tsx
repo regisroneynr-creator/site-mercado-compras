@@ -1327,7 +1327,7 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
 
   return (
     <section className="bg-white mb-6 lg:mb-12 overflow-hidden relative group rounded-xl lg:rounded-3xl shadow-md border border-gray-100">
-      <div className="max-w-[1231px] w-full aspect-[2/1] sm:aspect-[3/1] md:aspect-[1231/360] mx-auto relative flex items-center rounded-xl lg:rounded-3xl overflow-hidden bg-[#F5F5F5]">
+      <div className="max-w-[1231px] w-full aspect-[1231/360] mx-auto relative flex items-center rounded-xl lg:rounded-3xl overflow-hidden bg-[#F5F5F5]">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -1335,7 +1335,7 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="w-full h-full rounded-xl lg:rounded-3xl overflow-hidden"
+            className="absolute inset-0 w-full h-full"
           >
             {product.isFullImage ? (
               <a 
@@ -1343,12 +1343,12 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
                 target={product.affiliateLink.startsWith('internal:') ? "_self" : "_blank"}
                 rel="noopener noreferrer"
                 onClick={(e) => handleLinkClick(e, product.affiliateLink)}
-                className="w-full h-full flex items-center justify-center cursor-pointer"
+                className="block w-full h-full"
               >
                 <img 
                   src={product.imageUrl} 
                   alt="Promoção" 
-                  className="w-full h-full object-cover object-center transition-opacity duration-300"
+                  className="w-full h-full object-cover sm:object-cover object-center transition-opacity duration-300"
                   referrerPolicy="no-referrer"
                 />
               </a>
