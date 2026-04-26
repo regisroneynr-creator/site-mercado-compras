@@ -1283,7 +1283,7 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
 
   return (
     <section className="bg-white mb-6 lg:mb-12 overflow-hidden relative group rounded-xl lg:rounded-3xl shadow-md border border-gray-100">
-      <div className="max-w-[1231px] w-full aspect-[1231/360] md:aspect-auto md:h-[360px] mx-auto relative flex items-center rounded-xl lg:rounded-3xl overflow-hidden">
+      <div className="max-w-[1231px] w-full aspect-[2/1] sm:aspect-[3/1] md:aspect-[1231/360] mx-auto relative flex items-center rounded-xl lg:rounded-3xl overflow-hidden bg-[#F5F5F5]">
         <AnimatePresence mode="wait">
           <motion.div
             key={current}
@@ -1304,7 +1304,7 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
                 <img 
                   src={product.imageUrl} 
                   alt="Promoção" 
-                  className="w-full h-full object-cover transition-transform duration-700 lg:group-hover:scale-105"
+                  className="w-full h-full object-cover object-center transition-opacity duration-300"
                   referrerPolicy="no-referrer"
                 />
               </a>
@@ -2049,6 +2049,7 @@ export default function App() {
         onViewAll={() => {
           setFilterType('category');
           setViewAllCategory('all');
+          setSelectedCategory('all');
         }}
         onViewHighDiscounts={() => {
           setFilterType('discount');
@@ -2057,14 +2058,22 @@ export default function App() {
         onCategoryClick={(id) => {
           setFilterType('category');
           setViewAllCategory(id);
+          setSelectedCategory(id);
         }}
-        onHomeClick={() => setViewAllCategory(null)}
+        onHomeClick={() => {
+          setViewAllCategory(null);
+          setSelectedCategory('all');
+        }}
       />
       <div className="max-w-7xl mx-auto px-4 lg:px-6 py-4 lg:py-6 font-sans">
         <main className="w-full">
           {!searchTerm && !viewAllCategory && (
             <>
-              <BannerCarousel onInternalLink={(link) => setViewAllCategory(link)} />
+              <BannerCarousel onInternalLink={(link) => {
+                setFilterType('category');
+                setViewAllCategory(link);
+                setSelectedCategory(link === 'all' ? 'all' : link);
+              }} />
             </>
           )}
           
