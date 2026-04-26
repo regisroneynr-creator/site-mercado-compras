@@ -613,24 +613,6 @@ const CATEGORIES = [
         link: "https://meli.la/1jb35xq" 
       }
     ]
-  },
-  {
-    id: "livros-e-revistas",
-    title: "LIVROS E REVISTAS",
-    icon: <BookOpen size={32} />,
-    products: [
-      { 
-        id: 301, 
-        name: "Copa Do Mundo 2026 - Álbum Capa Brochura - FIFA WORLD CUP 2026", 
-        price: "R$ 24,90", 
-        rating: "5.0",
-        reviewsCount: "1",
-        isBestSeller: true,
-        subTitle: "PRÉ-VENDA | Lançamento 30 de abril",
-        image: "https://http2.mlstatic.com/D_NQ_NP_2X_820260-MLA109899566259_032026-F.webp", 
-        link: "https://meli.la/2Mp7TWG" 
-      }
-    ]
   }
 ];
 
@@ -1038,7 +1020,6 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
     { label: 'Eletrônicos', icon: <Smartphone size={18} />, href: '#eletronicos' },
     { label: 'Casa e Cozinha', icon: <Utensils size={18} />, href: '#casa-e-cozinha' },
     { label: 'Moda', icon: <Shirt size={18} />, href: '#moda' },
-    { label: 'Livros e Revistas', icon: <BookOpen size={18} />, href: '#livros-e-revistas' },
   ];
 
   return (
@@ -1188,9 +1169,6 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
           </a>
           <a href="#moda" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
             <Shirt size={14} /> Moda
-          </a>
-          <a href="#livros-e-revistas" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
-            <BookOpen size={14} /> Livros e Revistas
           </a>
           <button onClick={onViewHighDiscounts} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
             <Tag size={14} /> Ofertas
