@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, ChevronRight, TrendingUp, Facebook, Instagram, Twitter, Mail, X, ChevronLeft, ShoppingCart, Star, Smartphone, Home, Shirt, Heart, Info, Headset, Utensils, Flame, Zap, ShoppingBag, Tag, Share2, Check, ZoomIn, ChevronDown, Gamepad2 } from 'lucide-react';
+import { Search, Menu, ChevronRight, TrendingUp, Facebook, Instagram, Twitter, Mail, X, ChevronLeft, ShoppingCart, Star, Smartphone, Home, Shirt, Heart, Info, Headset, Utensils, Flame, Zap, ShoppingBag, Tag, Share2, Check, ZoomIn, ChevronDown, Gamepad2, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useForm, ValidationError } from '@formspree/react';
 
@@ -226,6 +226,16 @@ const MODAL_CONTENT: Record<string, { title: string; content: React.ReactNode }>
 };
 
 const CAROUSEL_PRODUCTS = [
+  {
+    isFullImage: true,
+    imageUrl: "https://i.postimg.cc/PrFztVpT/copa-do-mundo-2026-album-capa-brochura-fifa-world-cup-2026.png",
+    affiliateLink: "https://meli.la/2Mp7TWG",
+    badge: "",
+    releaseDate: "",
+    title: "",
+    price: "",
+    installments: ""
+  },
   {
     isFullImage: true,
     imageUrl: "https://i.postimg.cc/QM93B96m/tudo-que-voce-precisa-em-um-so-lugar.png",
@@ -603,10 +613,40 @@ const CATEGORIES = [
         link: "https://meli.la/1jb35xq" 
       }
     ]
+  },
+  {
+    id: "livros-e-revistas",
+    title: "LIVROS E REVISTAS",
+    icon: <BookOpen size={32} />,
+    products: [
+      { 
+        id: 301, 
+        name: "Copa Do Mundo 2026 - Álbum Capa Brochura - FIFA WORLD CUP 2026", 
+        price: "R$ 24,90", 
+        rating: "5.0",
+        reviewsCount: "1",
+        isBestSeller: true,
+        subTitle: "PRÉ-VENDA | Lançamento 30 de abril",
+        image: "https://http2.mlstatic.com/D_NQ_NP_2X_820260-MLA109899566259_032026-F.webp", 
+        link: "https://meli.la/2Mp7TWG" 
+      }
+    ]
   }
 ];
 
 const BEST_SELLERS = [
+  { 
+    id: 301, 
+    name: "Copa Do Mundo 2026 - Álbum Capa Brochura - FIFA WORLD CUP 2026", 
+    price: "R$ 24,90", 
+    rating: "5.0",
+    reviewsCount: "1",
+    isBestSeller: true,
+    subTitle: "PRÉ-VENDA | Lançamento 30 de abril",
+    image: "https://http2.mlstatic.com/D_NQ_NP_2X_820260-MLA109899566259_032026-F.webp", 
+    link: "https://meli.la/2Mp7TWG",
+    categoryId: "livros-e-revistas"
+  },
   { 
     id: 210, 
     name: "Kit 10 Peças De Roupa Conjunto Infantil Menino Dia A Dia", 
@@ -998,6 +1038,7 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
     { label: 'Eletrônicos', icon: <Smartphone size={18} />, href: '#eletronicos' },
     { label: 'Casa e Cozinha', icon: <Utensils size={18} />, href: '#casa-e-cozinha' },
     { label: 'Moda', icon: <Shirt size={18} />, href: '#moda' },
+    { label: 'Livros e Revistas', icon: <BookOpen size={18} />, href: '#livros-e-revistas' },
   ];
 
   return (
@@ -1147,6 +1188,9 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
           </a>
           <a href="#moda" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
             <Shirt size={14} /> Moda
+          </a>
+          <a href="#livros-e-revistas" className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
+            <BookOpen size={14} /> Livros e Revistas
           </a>
           <button onClick={onViewHighDiscounts} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors">
             <Tag size={14} /> Ofertas
