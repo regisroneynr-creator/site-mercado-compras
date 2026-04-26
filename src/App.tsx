@@ -1078,7 +1078,7 @@ const Header = ({ onOpenModal, searchTerm, onSearchChange, onViewAll, onViewHigh
 
         {/* Bottom Row: Navigation (Desktop Only) */}
         <nav className="hidden lg:flex items-center gap-6 text-[13px] font-medium text-gray-700 h-[32px] mt-1">
-          <button onClick={onHomeClick} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors h-full">
+          <button onClick={() => { onHomeClick(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="flex items-center gap-1 cursor-pointer hover:text-[#1E2A78]/70 transition-colors h-full">
             <Home size={14} /> <span translate="no">Página Inicial</span>
           </button>
 
@@ -1277,6 +1277,7 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
     if (link.startsWith('internal:')) {
       e.preventDefault();
       onInternalLink(link.replace('internal:', ''));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -1333,12 +1334,13 @@ const BannerCarousel = ({ onInternalLink }: { onInternalLink: (link: string) => 
                   <div className="pt-2">
                     <a 
                       href={product.affiliateLink}
-                      target="_blank"
+                      target={product.affiliateLink.startsWith('internal:') ? "_self" : "_blank"}
                       rel="noopener noreferrer"
+                      onClick={(e) => handleLinkClick(e, product.affiliateLink)}
                       className="inline-flex items-center gap-3 bg-[#3483FA] text-white font-extrabold py-2.5 md:py-3.5 px-8 md:px-10 rounded-sm text-sm md:text-base hover:brightness-110 active:scale-95 transition-all uppercase tracking-widest shadow-xl shadow-blue-100 group/btn"
                     >
                       <ShoppingCart size={20} className="transition-transform group-hover/btn:scale-110" />
-                      <span>Quero Comprar</span>
+                      <span>{product.affiliateLink.startsWith('internal:') ? 'Ver Ofertas' : 'Quero Comprar'}</span>
                     </a>
                   </div>
                 </div>
